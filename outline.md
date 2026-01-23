@@ -5,7 +5,10 @@
 - ~~make repository and push~~
 - ~~create pages (home, signup, login, profile, content)~~
 -  ~~install sass~~
--  create basic styling
+-  ~~creating basic styling for header~~
+-  ~~construct profile page~~
+- install react hook form
+- constructing upload components on the profile page
 
 ## Part 1
 
