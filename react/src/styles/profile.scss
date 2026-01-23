@@ -4,33 +4,57 @@
 
 
     .group-container {
-        margin-top:1em;
-        background-color:white;
-        min-height:500px
+        margin-top: 1em;
+        background-color: white;
+        min-height: 500px
     }
 
-    #upload-form {
-        margin-top:1em;
-        background:$light-grey;
+    #select-form {
+        margin-top: 1em;
+        background: $light-grey;
         border: 5px dashed $black2;
         border-radius: 15px;
         max-width: 600px;
-        height:200px;
+        height: 200px;
         // display: flex;
         text-align: center;
+        transition: all 0.3s ease-in-out;
 
-        input[type="file"], button[type="submit"] {
-            display:none
+        &:hover {
+            background: $teal;
+            border-color: $green;
+            cursor: pointer;
         }
+
+        input[type="file"],
+        button[type="submit"] {
+            display: none
+        }
+
         svg {
             font-size: 4em;
             margin-top: 0.5em;
         }
 
-        .title{
+        .title {
             margin-top: 0.5em;
-            color:$black2;
+            color: $black2;
             font-size: 1.4em;
+        }
+    }
+
+    #upload-form {
+
+        max-height:400px;
+        overflow-y:auto;
+
+        .card-content {
+            width: 100%;
+        }
+
+        .upload-card {
+            margin-top: 1em;
+            padding: 1em;
         }
     }
 }

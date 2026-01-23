@@ -12,6 +12,7 @@
 - constructing upload components on the profile page
 - creating a service to upload data to symfony endpoint
 - adding cors to receive data from react
+- create api to receive upload data
 - successfully complete upload process
 
 
