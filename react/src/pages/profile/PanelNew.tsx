@@ -9,13 +9,14 @@ import type { TabPanelProps } from "../../interfaces";
 // import FormLabel from '@mui/material/FormLabel';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
 import { Button, FormGroup, TextField, Card, CardContent, Stack, FormControl } from '@mui/material';
-import { Form } from 'react-router';
+// import { Form } from 'react-router';
+import { useMutation } from "@tanstack/react-query";
 
 export default function PanelNew({ value, index }: TabPanelProps) {
     const [toggleFileInput, setToggleFileInput] = useState<boolean>(true);
     const [fileArr, setFileArr] = useState<Array<File>>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const uploadInputRef = useRef<HTMLFormElement | null>(null);    
+    const uploadInputRef = useRef<HTMLFormElement | null>(null);
     const handleClick = (): void => {
         fileInputRef.current?.click();
     }
@@ -33,15 +34,28 @@ export default function PanelNew({ value, index }: TabPanelProps) {
         setToggleFileInput(true);
     }
 
+    const uploadMutation = useMutation({
+        mutationFn: async (formData: FormData) => {
+            const response = await fetch('/api/upload', {
+            });
+        },
+        onSuccess: (data) => {}
+    });
     const handleSubmit = (): void => {
         console.log(uploadInputRef.current)
         const uploadForm = uploadInputRef.current;
         if (!uploadForm) return;
         const contentData = new FormData(uploadForm);
-        for( let f of contentData.entries()){
-            console.log(f)
+        const fileData = [];
+        for (let i = 0; i < fileArr.length; i++) {
+            fileData[i] = {
+                file: fileArr[i],
+                filename: contentData.get("filename-" + i),
+                description: contentData.get("description-" + i)
+            };
+
         }
-        // handle file upload logic here
+        console.log(fileData);
     }
 
     return (
@@ -89,8 +103,8 @@ export default function PanelNew({ value, index }: TabPanelProps) {
                                             <TextField
                                                 variant='standard'
                                                 id="filename"
-                                                name={"filename[]"}
-                                                // name={"filename-" + index}
+                                                // name={"filename[]"}
+                                                name={"filename-" + index}
                                                 value={file.name}
                                             >
                                                 {file.name}
@@ -101,8 +115,8 @@ export default function PanelNew({ value, index }: TabPanelProps) {
                                             <TextField
                                                 variant='standard'
                                                 id="description"
-                                                name={"description[]"}
-                                                // name={"description-" + index}
+                                                // name={"description[]"}
+                                                name={"description-" + index}
                                                 placeholder="enter file description"
                                             />
                                         </FormControl>
