@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from "react-router";
 import DefaultLayout from './layouts/DefaultLayout';
 import Home from './pages/Home';
-import Profile from './pages/Profile';
+import Profile from './pages/profile/Profile';
 import Content from './pages/Content';
 import Login from './pages/Login';
 import Signup from './pages/Signup';

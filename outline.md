@@ -8,7 +8,7 @@
 -  ~~creating basic styling for header~~
 -  ~~construct profile page~~
 - ~~install react hook form~~
-- create a profile directory
+- ~~create a profile directory~~
 - constructing upload components on the profile page
 - creating a service to upload data to symfony endpoint
 - adding cors to receive data from react
