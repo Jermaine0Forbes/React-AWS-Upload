@@ -1,11 +1,13 @@
 // import React from 'react';
 
 
-export default function Login()
-{
+export default function Login() {
     return (
-        <section>
-            this is the login page
-        </section>
+        <main
+            id="login">
+            <section>
+                this is the login page
+            </section>
+        </main>
     )
 }

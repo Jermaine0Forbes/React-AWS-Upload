@@ -1,0 +1,16 @@
+@use '_var' as *;
+
+header {
+    &#app-bar{
+        color:white;
+        background-color:$black;
+        padding: 0.5em 1em;
+
+        nav {
+            a,button {
+                color:white
+            }
+        }
+
+    }
+}

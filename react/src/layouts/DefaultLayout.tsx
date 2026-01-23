@@ -8,7 +8,7 @@ import {
     // useNavigate
 } from "react-router";
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+// import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 // import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
@@ -50,7 +50,7 @@ export default function DefaultLayout() {
                                 to="/"
                                 variant='h5'>
 
-                                Upload
+                                Uppy
                             </Typography>
 
                         </Box>
@@ -60,18 +60,22 @@ export default function DefaultLayout() {
                         size={3}
                         offset={6}
                     >
-                        <Toolbar
-                            id="toolbar"
-                        >
+
+                        <nav
+                            id="nav-links">
 
                             <Button
                                 className="links"
+                                component={Link}
+                                to="/content"
                             >
                                 Content
                             </Button>
 
                             <Button
                                 className="links"
+                                component={Link}
+                                to="/profile"
                             >
                                 Profile
                             </Button>
@@ -80,6 +84,8 @@ export default function DefaultLayout() {
                             <Button
                                 //  onClick={toggleOpen}
                                 className="links"
+                                component={Link}
+                                to="/login"
                             >
                                 Login
                             </Button>
@@ -91,13 +97,13 @@ export default function DefaultLayout() {
                             >
                                 Signup
                             </Button>
-                        </Toolbar>
+
+                        </nav>
+
                     </Grid>
                 </Grid>
             </AppBar>
-            <main>
-                <Outlet />
-            </main>
+            <Outlet />
         </>
     );
 }
