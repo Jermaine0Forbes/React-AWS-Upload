@@ -1,9 +1,11 @@
 
 # Upload app
 
-- install mui, react query, and  react router
-- make repository and push
-- create pages (home, signup, login, profile, content)
+- ~~installed mui, react query, and  react router~~
+- ~~make repository and push~~
+- ~~create pages (home, signup, login, profile, content)~~
+-  install sass
+-  create basic styling
 
 ## Part 1
 
