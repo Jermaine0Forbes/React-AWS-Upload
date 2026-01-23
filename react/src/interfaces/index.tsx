@@ -3,3 +3,9 @@ export interface TabPanelProps {
     index: number;
     value: number;
 }
+
+export interface UploadData {
+    file: File;
+    filename: FormDataEntryValue | null;
+    description: FormDataEntryValue | null;
+}

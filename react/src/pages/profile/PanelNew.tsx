@@ -11,6 +11,7 @@ import FilePresentIcon from '@mui/icons-material/FilePresent';
 import { Button, FormGroup, TextField, Card, CardContent, Stack, FormControl } from '@mui/material';
 // import { Form } from 'react-router';
 import { useMutation } from "@tanstack/react-query";
+import { postProfileUpload } from '../../services/profile';
 
 export default function PanelNew({ value, index }: TabPanelProps) {
     const [toggleFileInput, setToggleFileInput] = useState<boolean>(true);
@@ -35,11 +36,8 @@ export default function PanelNew({ value, index }: TabPanelProps) {
     }
 
     const uploadMutation = useMutation({
-        mutationFn: async (formData: FormData) => {
-            const response = await fetch('/api/upload', {
-            });
-        },
-        onSuccess: (data) => {}
+        mutationFn: postProfileUpload,
+        onSuccess: async (data) => { console.log(data);}
     });
     const handleSubmit = (): void => {
         console.log(uploadInputRef.current)
@@ -56,6 +54,7 @@ export default function PanelNew({ value, index }: TabPanelProps) {
 
         }
         console.log(fileData);
+        uploadMutation.mutate(fileData);
     }
 
     return (
