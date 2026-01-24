@@ -37,20 +37,23 @@ export default function PanelNew({ value, index }: TabPanelProps) {
 
     const uploadMutation = useMutation({
         mutationFn: postProfileUpload,
-        onSuccess: async (data) => { console.log(data);}
+        onSuccess: async (data) => { console.log(await data.json());}
     });
     const handleSubmit = (): void => {
         console.log(uploadInputRef.current)
         const uploadForm = uploadInputRef.current;
         if (!uploadForm) return;
         const contentData = new FormData(uploadForm);
-        const fileData = [];
+        const fileData = new FormData();
+        let metadata: Record<string, FormDataEntryValue | null> = {};
         for (let i = 0; i < fileArr.length; i++) {
-            fileData[i] = {
-                file: fileArr[i],
+            metadata = {
+                
                 filename: contentData.get("filename-" + i),
                 description: contentData.get("description-" + i)
             };
+            fileData.append("file-"+i, fileArr[i]);
+            fileData.append("metadata", JSON.stringify(metadata));
 
         }
         console.log(fileData);
