@@ -15,7 +15,7 @@
 - ~~adding cors to receive data from react~~
 - ~~create api to receive upload data~~
 - ~~successfully complete upload process~~
-- create an entity to hold information on the upload content
+- ~~create an entity to hold information on the upload content~~
 - save upload content to table
 - install aws sdk
 - create bucket
