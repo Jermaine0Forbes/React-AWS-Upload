@@ -52,8 +52,9 @@ export default function PanelNew({ value, index }: TabPanelProps) {
                 filename: contentData.get("filename-" + i),
                 description: contentData.get("description-" + i)
             };
+            console.log(metadata);
             fileData.append("file-"+i, fileArr[i]);
-            fileData.append("metadata", JSON.stringify(metadata));
+            fileData.append("metadata-"+i, JSON.stringify(metadata));
 
         }
         console.log(fileData);
@@ -107,9 +108,8 @@ export default function PanelNew({ value, index }: TabPanelProps) {
                                                 id="filename"
                                                 // name={"filename[]"}
                                                 name={"filename-" + index}
-                                                value={file.name}
+                                                defaultValue={file.name}
                                             >
-                                                {file.name}
                                             </TextField>
                                         </FormControl>
 

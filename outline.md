@@ -13,8 +13,14 @@
 - ~~creating a service to upload data to symfony endpoint~~
 - ~~creating an environment variable to hold symfony's url~~
 - ~~adding cors to receive data from react~~
-- create api to receive upload data
-- successfully complete upload process
+- ~~create api to receive upload data~~
+- ~~successfully complete upload process~~
+- create an entity to hold information on the upload content
+- save upload content to table
+- install aws sdk
+- create bucket
+- upload file to bucket
+- retrieve files from bucket
 
 
 

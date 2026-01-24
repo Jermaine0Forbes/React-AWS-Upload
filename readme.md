@@ -1,7 +1,5 @@
 # Uppy
 
-
-
 ## Part 1
 
 Create an app with next.js or symfony that will allow a user to create an account, choose a tier, and upload images/videos. Based on the tier, the user can only upload a number of images or videos.
@@ -33,7 +31,31 @@ Create an app with next.js or symfony that will allow a user to create an accoun
  - Content
     - this is where all the uploaded content from different users will be
     - there will be three options (recent, most viewed, most popular). Might have an option to save the amount of views content has, possibly have a like/dislike option
- 
+
+### Tables
+
+**users**
+|id|username|email|password|tier_id|created_at|updated_at|
+|---|---|---|---|---|---|---|
+|int|varchar(100)|varchar(255)|varchar(255)|foreign_key(int)|datetime|datetime|
+
+**content**
+|id|path|name|description|views|user_id|created_at|updated_at| 
+|---|---|---|---|---|---|---|---|
+|int|varchar(255)|varchar(255)|text|int|foreign_key(int)|datetime|datetime|
+
+**plans**
+|id|tier|
+|---|---|
+|int|varchar(100)|
+
+**subscription_limit**
+|id|max|current|expiration_date| user_id|created_at|updated_at|
+|---|---|---|---|---|---|---|
+|int|init|int|datetime|foreign_key(int)|datetime|datetime|
+
+
+
 
 ## Part 2
 
