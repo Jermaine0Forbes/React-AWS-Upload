@@ -16,11 +16,33 @@
 - ~~create api to receive upload data~~
 - ~~successfully complete upload process~~
 - ~~create an entity to hold information on the upload content~~
-- save upload content to table
+- ~~save upload content to table~~
 - install aws sdk
 - create bucket
 - upload file to bucket
 - retrieve files from bucket
 
 
+## important commands 
 
+```
+// starts dev server
+symfony server:start
+
+php bin/console cache:clear
+
+// create the models
+php bin/console make:entity
+
+// creates the database based off the DATABASE_URL in your .env
+symfony console doctrine:database:create
+
+// create a migration
+symfony console make:migration
+
+// create the tables from the migration file
+symfony console doctrine:migrations:migrate
+
+// drop tables based on the migration version number that you'll find in database
+symfony console doctrine:migrations:execute DoctrineMigrations\Version20260124232337 --down
+```

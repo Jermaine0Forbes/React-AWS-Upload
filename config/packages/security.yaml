@@ -1,0 +1,31 @@
+security:
+
+    password_hashers:
+        # auto hasher with default options for the User class (and children)
+        App\Entity\User: 'auto'
+
+        # auto hasher with custom options for all PasswordAuthenticatedUserInterface instances
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: 'auto'
+            cost:      15
+    firewalls:
+      dev:
+          pattern: ^/(_(profiler|wdt)|css|images|js)/
+          security: false
+      main:
+          # Matches all other URLs
+          lazy: true
+          # provider: your_user_provider # uncomment and configure if you have a user provider
+
+          # Optionally, enable anonymous access for pages that don't require login
+          # anonymous: ~
+          
+          # Add other authentication methods if needed, e.g., form_login or http_basic
+          # form_login:
+          #     login_path: app_login
+          #     check_path: app_login
+          #     # ... other form login options
+          
+          # logout:
+          #     path: app_logout
+          #     target: app_homepage

@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'users')]
-class User
+#[ORM\Table(name: 'users', options: ["engine" => "InnoDB"])]
+#[ORM\Index(columns: ['tier_id'])]
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,11 +27,11 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\OneToOne(inversedBy: 'tier', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Plan::class, inversedBy: 'user')]
+    #[ORM\JoinColumn(name: 'tier_id', referencedColumnName: 'id')]
     private ?Plan $tier = null;
 
-
-    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?SubscriptionLimit $subscriptionLimit = null;
 
     #[ORM\Column]
@@ -43,6 +45,10 @@ class User
      */
     #[ORM\OneToMany(targetEntity: Content::class, mappedBy: 'user_id', orphanRemoval: true)]
     private Collection $contents;
+
+    #[ORM\Column(type: 'integer')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?int $tier_id = null;
 
     public function __construct()
     {
@@ -91,14 +97,27 @@ class User
         return $this;
     }
 
-    public function getTierId(): ?Plan
+    public function getTier(): ?Plan
     {
         return $this->tier;
     }
 
-    public function setTierId(?Plan $tier): static
+    public function setTier(?Plan $tier): static
     {
         $this->tier = $tier;
+        $this->tier_id = $tier ? $tier->getId() : null;
+
+        return $this;
+    }
+
+    public function getTierId(): ?int
+    {
+        return $this->tier_id;
+    }
+
+    public function setTierId(?int $tier_id): static
+    {
+        $this->tier_id = $tier_id;
 
         return $this;
     }
@@ -123,7 +142,6 @@ class User
     public function setUpdatedAt(): void
     {
         $this->updated_at = new \DateTimeImmutable();
-
     }
 
     /**
@@ -138,7 +156,7 @@ class User
     {
         if (!$this->contents->contains($content)) {
             $this->contents->add($content);
-            $content->setUserId($this);
+            $content->setUser($this);
         }
 
         return $this;
@@ -164,12 +182,23 @@ class User
     public function setSubscriptionLimit(SubscriptionLimit $subscriptionLimit): static
     {
         // set the owning side of the relation if necessary
-        if ($subscriptionLimit->getUserId() !== $this) {
-            $subscriptionLimit->setUserId($this);
+        if ($subscriptionLimit->getUser() !== $this) {
+            $subscriptionLimit->setUser($this);
         }
 
         $this->subscriptionLimit = $subscriptionLimit;
 
         return $this;
     }
+
+    public function getProfileData(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'tier' => $this->getTier() ? $this->getTier()->getTier() : null,
+            'created_at' => $this->getCreatedAt(),
+        ];
+    }   
 }

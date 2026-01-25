@@ -4,8 +4,12 @@ namespace App\Entity;
 
 use App\Repository\SubscriptionLimitRepository;
 use Doctrine\ORM\Mapping as ORM;
+// use Doctrine\Common\Collections\ArrayCollection;
+// use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: SubscriptionLimitRepository::class)]
+#[ORM\Table(options: ["engine" => "InnoDB"])]
+#[ORM\Index(columns: ['tier_id'])]
 class SubscriptionLimit
 {
     #[ORM\Id]
@@ -22,13 +26,25 @@ class SubscriptionLimit
     #[ORM\Column(nullable: true)]
     private ?\DateTime $expiration_date = null;
 
-    #[ORM\OneToOne(inversedBy:'subscriptionLimit', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'subscriptionLimit', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToOne(inversedBy: 'subscriptionLimit', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\Column]
+    private ?int $user_id = null;
+
+    #[ORM\Column(type: 'integer')]
+    #[ORM\JoinColumn(name: 'tier_id', referencedColumnName: 'id',nullable: false)]
+    private ?int $tier_id = null;
+
     private ?Plan $tier = null;
+
+    // #[ORM\JoinColumn(name: 'tier_id', referencedColumnName: 'id', nullable: false)]
+    // /**
+    //  * @var Collection<int, Plan>
+    //  */
+    // #[ORM\OneToMany(targetEntity: Plan::class, mappedBy: 'subscriptionLimit', cascade: ['persist', 'remove'])]
+    // private Collection $tiers;
 
     #[ORM\Column]
     private ?\DateTime $created_at = null;
@@ -39,6 +55,7 @@ class SubscriptionLimit
     public function __construct()
     {
         $this->created_at = new \DateTime();
+        // $this->tiers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +87,13 @@ class SubscriptionLimit
         return $this;
     }
 
+    public function incrementCurrent(int $incrementBy = 1): static
+    {
+        $this->current += $incrementBy;
+
+        return $this;
+    }
+
     public function getExpirationDate(): ?\DateTime
     {
         return $this->expiration_date;
@@ -82,26 +106,64 @@ class SubscriptionLimit
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUserId(User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
+        $this->user_id = $user->getId();
 
         return $this;
     }
 
-    public function getTierId(): ?Plan
+    public function getUserId(): ?int
     {
-        return $this->tier;
+        return $this->user_id;
     }
 
-    public function setTierId(Plan $tier): static
+    public function setUserId(int $user_id): static
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+
+    public function getTier(): ?Plan
+    {
+        if(empty($this->tier)){
+            $this->tier = $this->getUser()->getTier();
+        }
+        return $this->tier ;
+    }
+
+    public function setTier(Plan $tier): static
     {
         $this->tier = $tier;
+        $this->tier_id = $tier->getId();
+
+        return $this;
+    }
+
+    // /**
+    //  * @return Collection<int, Plan>
+    //  */
+    // public function getTiers(): ?Collection
+    // {
+    //     return $this->tiers;
+    // }
+
+    public function getTierId(): ?int
+    {
+        return $this->tier_id;
+    }
+
+    public function setTierId(int $tier_id): static
+    {
+        $this->tier_id = $tier_id;
 
         return $this;
     }
@@ -126,6 +188,5 @@ class SubscriptionLimit
     public function setUpdatedAt(): void
     {
         $this->updated_at = new \DateTime();
-
     }
 }

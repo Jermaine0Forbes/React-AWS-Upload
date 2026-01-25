@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContentRepository::class)]
+#[ORM\Table( options: ["engine" => "InnoDB"])]
 class Content
 {
     #[ORM\Id]
@@ -28,13 +29,16 @@ class Content
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\Column]
+    private ?int $user_id = null;
 
     public function __construct()
     {
@@ -94,14 +98,27 @@ class Content
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUserId(): ?int
     {
         return $this->user_id;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUserId(?int $user_id): static
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+        $this->user_id = $user ? $user->getId() : null;
 
         return $this;
     }
@@ -126,6 +143,5 @@ class Content
     public function setUpdatedAt(): void
     {
         $this->updated_at =  new \DateTimeImmutable();
-
     }
 }

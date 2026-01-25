@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import Typography from "@mui/material/Typography";
 import { TabPanel } from "../../components/TabPanel";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import type { TabPanelProps } from "../../interfaces";
+import type {PanelNewProps } from "../../interfaces";
 // import FormControl from '@mui/material/FormControl';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import FormLabel from '@mui/material/FormLabel';
@@ -13,7 +13,7 @@ import { Button, FormGroup, TextField, Card, CardContent, Stack, FormControl } f
 import { useMutation } from "@tanstack/react-query";
 import { postProfileUpload } from '../../services/profile';
 
-export default function PanelNew({ value, index }: TabPanelProps) {
+export default function PanelNew({ value, index, userId }: PanelNewProps) {
     const [toggleFileInput, setToggleFileInput] = useState<boolean>(true);
     const [fileArr, setFileArr] = useState<Array<File>>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -58,7 +58,7 @@ export default function PanelNew({ value, index }: TabPanelProps) {
 
         }
         console.log(fileData);
-        uploadMutation.mutate(fileData);
+        uploadMutation.mutate({id: userId, data:fileData});
     }
 
     return (
