@@ -12,6 +12,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 use App\DTO\UploadDTO;
+use Symfony\Component\Filesystem\Filesystem;
 
 
 class FileUploader
@@ -22,9 +23,11 @@ class FileUploader
 
     public function __construct(
         private string $targetDirectory,
+        private S3 $s3,
         private SluggerInterface $slugger,
         private LoggerInterface $logger,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private FileSystem $fs
     ) {}
 
     public function checkFiles(Request $request): UploadDTO
@@ -105,22 +108,39 @@ class FileUploader
                 $originalFilename = pathinfo($filename, PATHINFO_FILENAME);
                 $safeFilename = $this->slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
                 $connection = $this->entityManager->getConnection();
                 try {
                     $connection->beginTransaction();
 
                     // Move the file to the target directory
                     $file->move($this->targetDirectory, $newFilename);
-                    $this->logger->info('file moved to: ' . $this->targetDirectory . '/' . $newFilename);
+                    $subLimit = $this->subLimit;
+                    $sourceFile = $this->targetDirectory . '/' . $newFilename;
+                    $this->logger->info('file moved to: ' . $sourceFile);
+                    $objectUrl = $this->s3->upload([
+                        "Key" => $this->getuser()->getUsername().'/'.$originalFilename,
+                         "ContentType" => 'text/plain',
+                         "SourceFile" => $sourceFile,
+                         "Metadata" => [
+                            "tier" => $subLimit->getTier(),
+                            "description" => $description,
+                            "expiration_date" => $subLimit->getExpirationDate()->format('Y-m-d H:i:s') 
+                         ]
+                    ]);
+
+                    if($objectUrl) {
+                        $this->fs->remove($sourceFile);
+                    }
 
                     // Save file info to the database
                     $content = new Content();
-                    $content->setPath($this->targetDirectory . '/' . $newFilename);
+                    $content->setPath($objectUrl);
                     $content->setName($originalFilename);
                     $content->setDescription($description);
                     $content->setUser($this->getUser());
 
-                    $subLimit = $this->subLimit;
+                    
                     $subLimit->incrementCurrent();
                     $subLimit->setUpdatedAt();
                     $subLimit->setUserId($this->getUserId());

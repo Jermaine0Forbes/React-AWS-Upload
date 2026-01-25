@@ -19,7 +19,7 @@
 - ~~save upload content to table~~
 - ~~install aws sdk~~
 - ~~create identity with limited privileges~~
-- upload file to bucket
+- ~~upload file to bucket~~
 - retrieve files from bucket
 - create media page
 - show image on media page

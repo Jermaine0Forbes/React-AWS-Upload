@@ -37,7 +37,9 @@ class SubscriptionLimit
     #[ORM\JoinColumn(name: 'tier_id', referencedColumnName: 'id',nullable: false)]
     private ?int $tier_id = null;
 
-    private ?Plan $tier = null;
+    private ?Plan $plan = null;
+
+    private ?string $tier = null;
 
     // #[ORM\JoinColumn(name: 'tier_id', referencedColumnName: 'id', nullable: false)]
     // /**
@@ -132,21 +134,38 @@ class SubscriptionLimit
     }
 
 
-    public function getTier(): ?Plan
+    public function getTier(): ?string
     {
         if(empty($this->tier)){
-            $this->tier = $this->getUser()->getTier();
+            $this->tier = $this->getUser()->getTier()->getTier();
         }
         return $this->tier ;
     }
 
-    public function setTier(Plan $tier): static
+    // public function setTier(Plan $tier): static
+    // {
+    //     $this->tier = $tier;
+    //     $this->tier_id = $tier->getId();
+
+    //     return $this;
+    // }
+
+        public function getPlan(): ?Plan
     {
-        $this->tier = $tier;
-        $this->tier_id = $tier->getId();
+        if(empty($this->plan)){
+            $this->plan = $this->getUser()->getTier();
+        }
+        return $this->plan ;
+    }
+
+    public function setPlan(Plan $plan): static
+    {
+        $this->plan = $plan;
+        $this->tier_id = $plan->getId();
 
         return $this;
     }
+    
 
     // /**
     //  * @return Collection<int, Plan>

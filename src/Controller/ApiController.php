@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\FileUploader;
+use App\Service\S3;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use App\Entity\SubscriptionLimit;
@@ -15,6 +16,7 @@ use App\Entity\Plan;
 use App\Utils\AwsUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ApiController extends AbstractController
 {
@@ -52,7 +54,7 @@ final class ApiController extends AbstractController
             //creates the subscription plan limit
             $subLimit = new SubscriptionLimit();
             $subLimit->setUser($user);
-            $subLimit->setTier($plan);
+            $subLimit->setPlan($plan);
             match ($tierId) {
                 1 => $subLimit->setMax(4),
                 2 => $subLimit->setMax(8),
@@ -117,6 +119,9 @@ final class ApiController extends AbstractController
     }
 
     #[Route('/api/credentials', name: 'app_api_credentials', methods: ['GET'])]
-    public function getCreds(Request $request, AwsUtils $aws){
+    public function getCreds(Request $request,
+    #[Autowire(service: 's3_service')] S3 $s3){
+        $url = $s3->retrieve();
+        return new Response("</img src='$url' />", 200, ['content-type' => 'text/html']);
     }
 }

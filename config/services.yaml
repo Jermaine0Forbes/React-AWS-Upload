@@ -21,13 +21,25 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Service\FileUploader:
-        arguments:
-            $targetDirectory: '%kernel.project_dir%/public/uploads'
-
     App\Utils\AwsUtils:
         arguments:
             $bucketName: '%env(string:BUCKET_NAME)%'
             $region: '%env(string:AWS_REGION)%'
             $apiVersion: '%env(string:AWS_API_VERSION)%'
+            
+    aws_utils:
+        class: App\Utils\AwsUtils
+    
+    App\Service\S3:
+        arguments:
+            $utils: '@aws_utils'
+
+    s3_service:
+        class: App\Service\S3
+
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/public/uploads'
+            $s3: '@s3_service'
+
 
