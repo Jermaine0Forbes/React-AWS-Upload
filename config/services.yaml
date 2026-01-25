@@ -24,3 +24,10 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%kernel.project_dir%/public/uploads'
+
+    App\Utils\AwsUtils:
+        arguments:
+            $bucketName: '%env(string:BUCKET_NAME)%'
+            $region: '%env(string:AWS_REGION)%'
+            $apiVersion: '%env(string:AWS_API_VERSION)%'
+

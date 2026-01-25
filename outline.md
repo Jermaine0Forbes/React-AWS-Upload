@@ -17,10 +17,17 @@
 - ~~successfully complete upload process~~
 - ~~create an entity to hold information on the upload content~~
 - ~~save upload content to table~~
-- install aws sdk
-- create bucket
+- ~~install aws sdk~~
+- ~~create identity with limited privileges~~
 - upload file to bucket
 - retrieve files from bucket
+- create media page
+- show image on media page
+- work on home page
+- work on signup page
+- create register api
+- return jwt token
+
 
 
 ## important commands 

@@ -12,6 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use App\Entity\SubscriptionLimit;
 use App\Entity\Plan;
+use App\Utils\AwsUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 
@@ -113,5 +114,9 @@ final class ApiController extends AbstractController
                 'message' => 'File upload failed.',
             ], 500);
         }
+    }
+
+    #[Route('/api/credentials', name: 'app_api_credentials', methods: ['GET'])]
+    public function getCreds(Request $request, AwsUtils $aws){
     }
 }
