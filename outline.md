@@ -20,7 +20,9 @@
 - ~~install aws sdk~~
 - ~~create identity with limited privileges~~
 - ~~upload file to bucket~~
-- retrieve files from bucket
+- ~~create api to retrieve files from bucket~~
+- create fetch service to get s3 files
+- construct user media content components
 - create media page
 - show image on media page
 - work on home page

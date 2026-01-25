@@ -49,10 +49,10 @@ class S3
         return $fullObject;
     }
 
-    public function retrieve():string
+    public function retrieve(string $key):string
     {
         $object = $this->prepareObject([
-            "Key" => "http://my-example-bucket-jf-1.s3.us-east-2.amazonaws.com/user4210/laid%20back%20guy"
+            "Key" => $key,
         ]);
         $url = "";
 

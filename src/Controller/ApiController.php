@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\FileUploader;
 use App\Service\S3;
+use App\Service\UserService;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use App\Entity\SubscriptionLimit;
@@ -116,6 +117,13 @@ final class ApiController extends AbstractController
                 'message' => 'File upload failed.',
             ], 500);
         }
+    }
+    #[Route('/api/user/{id}/content', name: 'app_api_get_content', methods: ['GET'])]
+    public function getUserContent(Request $request, UserService $us ): JsonResponse
+    {
+        $content = $us->retrieveContent($request);
+
+        return  $this->json($content);
     }
 
     #[Route('/api/credentials', name: 'app_api_credentials', methods: ['GET'])]

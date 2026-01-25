@@ -42,4 +42,8 @@ services:
             $targetDirectory: '%kernel.project_dir%/public/uploads'
             $s3: '@s3_service'
 
+    App\Service\UserService:
+        arguments:
+            $s3: '@s3_service'
+
 

@@ -43,7 +43,7 @@ class User implements PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Content>
      */
-    #[ORM\OneToMany(targetEntity: Content::class, mappedBy: 'user_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Content::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $contents;
 
     #[ORM\Column(type: 'integer')]
