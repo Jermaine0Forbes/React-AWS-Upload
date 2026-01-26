@@ -75,6 +75,7 @@ export interface QuotaData {
     max: number,
     current: number,
     remainder: number,
+    exceeding?: undefined | boolean,
 }
 
 

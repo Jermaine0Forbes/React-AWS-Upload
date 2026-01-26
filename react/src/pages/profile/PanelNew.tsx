@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Typography from "@mui/material/Typography";
 import { TabPanel } from "../../components/TabPanel";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import type {PanelNewProps } from "../../interfaces";
+import type {PanelNewProps, QuotaData } from "../../interfaces";
 // import FormControl from '@mui/material/FormControl';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import FormLabel from '@mui/material/FormLabel';
@@ -26,24 +26,39 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const uploadInputRef = useRef<HTMLFormElement | null>(null);
     const { userData: user} = useUserContext();
-    const initBanner = `${user?.tier} Plan: You have ${user?.max - user?.current} uploads left this month`;
+    const defaultQuota = {max: user?.max , current: user?.current, remainder: user?.max - user?.current};
+    const [quota, setQuota] = useState<QuotaData>(defaultQuota)
+    const initBanner = `${user?.tier} Plan: You have ${quota?.remainder} uploads left this month`;
     const [bannerMsg, setBannerMsg] = useState<string>(initBanner);
 
     const handleClick = (): void => {
         fileInputRef.current?.click();
     }
+
+    const isExceeding = (size: number) => {
+        const { max , current } = quota; 
+
+        if(max < current + size){
+            setBannerMsg("This upload will exceed your quota, try again!")
+            setQuota({...quota, exceeding: true})
+        }
+    };
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const files = event.target.files;
         if (files) {
             const arr = Array.from(files);
             setFileArr(arr);
             setFileInputStatus(2);
+            isExceeding(files?.length);
         }
     }
 
     const handleCancel = (): void => {
         setFileArr([]);
         setFileInputStatus(1);
+        setBannerMsg(initBanner)
+        setQuota({...quota, exceeding: false})
     }
 
     const uploadMutation = useMutation({
@@ -62,16 +77,23 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
         enabled:notifyOpen
     });
 
+
+    const maxedOut = () => {
+         console.log('maxed out')
+    };
+
     useEffect(() => {
         if(isSuccess && data && 'remainder' in data){
             const { remainder } = data;
             switch(remainder) {
                 case 0 :
+                maxedOut();
                 setBannerMsg("You maxed out on your upload quota this month!")
                 break;
                 default:
                     setBannerMsg(`${user?.tier} Plan: You have ${remainder} uploads left this month`)
             }
+            setQuota({...data})
         }
 
     },[isSuccess, data, setBannerMsg]);
@@ -80,6 +102,7 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
         const uploadForm = uploadInputRef.current;
         if (!uploadForm) return;
         setFileInputStatus(3);
+
         const contentData = new FormData(uploadForm);
         const fileData = new FormData();
         let metadata: Record<string, FormDataEntryValue | null> = {};
@@ -170,7 +193,7 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
                     ))}
                 </form>
                 <Button onClick={handleCancel}>cancel</Button>
-                <Button onClick={handleSubmit}>upload</Button>
+                <Button onClick={handleSubmit} disabled={quota?.exceeding || quota?.remainder === 0}>upload</Button>
             </div>
             <div
                 className={fileInputStatus == 3 ? "file-upload" : "file-upload hidden"}
