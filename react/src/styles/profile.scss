@@ -39,6 +39,14 @@
 
     }
 
+    .notification-banner {
+        background: $green;
+        color:white;
+        padding: 0.5em;
+        font-size: 1.2em;
+        margin-top:0.5em;
+    }
+
     #select-form {
         margin-top: 1em;
         background: $light-grey;
@@ -51,9 +59,14 @@
         transition: all 0.3s ease-in-out;
 
         &:hover {
-            background: $teal;
+            background: $light-grey;
             border-color: $green;
             cursor: pointer;
+            color:$green;
+
+            h5 {
+                color:$green;
+            }
         }
 
         input[type="file"],

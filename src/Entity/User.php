@@ -198,7 +198,23 @@ class User implements PasswordAuthenticatedUserInterface
             'username' => $this->getUsername(),
             'email' => $this->getEmail(),
             'tier' => $this->getTier() ? $this->getTier()->getTier() : null,
+            'max' => $this->getTier() ? $this->getTier()->getValue() : null,
+            'current' => $this->getSubscriptionLimit() ? $this->getSubscriptionLimit()->getCurrent() : null,
             'created_at' => $this->getCreatedAt(),
         ];
     }   
+
+
+    
+    public function getQuota(): array
+    {
+        $max= $this->getTier() ? $this->getTier()->getValue() : 0;
+        $current= $this->getSubscriptionLimit() ? $this->getSubscriptionLimit()->getCurrent() : 0;
+        $remainder= $max - $current;
+        return [
+            'max' => $max,
+            'current' => $current,
+            'remainder' => $remainder,
+        ];
+    }  
 }

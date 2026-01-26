@@ -8,9 +8,11 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Button, FormGroup, MenuItem, TextField } from '@mui/material';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
+import { useUserContext } from "../../contexts";
 
 export default function PanelProfile({ value, index }: TabPanelProps) {
-    const [tier, setTier] = useState<string>('free');
+    const { userData: user} = useUserContext();
+    const [tier, setTier] = useState<string>(user?.tier ?? '');
     const handleTier = (event: SelectChangeEvent) => {
         setTier(event.target?.value)
     }
@@ -28,6 +30,7 @@ export default function PanelProfile({ value, index }: TabPanelProps) {
                             variant='standard'
                             id="username"
                             className="form-field"
+                            defaultValue={user?.username}
                         // {...register('username', { required: true })}
                         />
                     </FormControl>
@@ -41,6 +44,7 @@ export default function PanelProfile({ value, index }: TabPanelProps) {
                             variant='standard'
                             id="email"
                             className="form-field"
+                            defaultValue={user?.email}
                         // {...register('username', { required: true })}
                         />
                     </FormControl>
@@ -70,9 +74,9 @@ export default function PanelProfile({ value, index }: TabPanelProps) {
                             label="Select Tier"
                             onChange={handleTier}
                         >
-                            <MenuItem value={'free'}>Free</MenuItem>
-                            <MenuItem value={'basic'}>Basic</MenuItem>
-                            <MenuItem value={'advanced'}>Advanced</MenuItem>
+                            <MenuItem value={'Free'}>Free</MenuItem>
+                            <MenuItem value={'Basic'}>Basic</MenuItem>
+                            <MenuItem value={'Advanced'}>Advanced</MenuItem>
                         </Select>
                     </FormControl>
                 </FormGroup>

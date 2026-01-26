@@ -152,4 +152,12 @@ final class ApiController extends AbstractController
         return  $this->json($content);
     }
 
+    #[Route('/api/user/{id:user}/quota', name: 'app_api_get_quota', methods: ['GET'])]
+    public function getQuotaData( User $user): JsonResponse
+    {
+        $quota = $user->getQuota();
+
+        return  $this->json($quota);
+    }
+
 }

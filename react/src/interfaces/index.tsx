@@ -71,4 +71,10 @@ export interface ContentData {
     created_at: CreatedAtObj | string
 }
 
+export interface QuotaData {
+    max: number,
+    current: number,
+    remainder: number,
+}
+
 

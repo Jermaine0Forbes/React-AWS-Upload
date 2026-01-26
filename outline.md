@@ -31,12 +31,13 @@
 - ~~create endpoint to get all content~~
 - ~~create service to fetch all content~~
 - ~~construct content components~~
-- show plan and quota in user profile
+- ~~show plan and quota in user profile~~
 - create response if upload exceeds quota
 - create response if user maxes out uploads
 - work on signup page
 - create register api
 - return jwt token
+- user can only view uploads from other users
 
 
 

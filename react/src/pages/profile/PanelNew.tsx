@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 // import { useForm, SubmitHandler, FormProvider} from "react-hook-form"
 import Typography from "@mui/material/Typography";
 import { TabPanel } from "../../components/TabPanel";
@@ -10,18 +10,25 @@ import type {PanelNewProps } from "../../interfaces";
 import FilePresentIcon from '@mui/icons-material/FilePresent';
 import { Button, FormGroup, TextField, Card, CardContent, Stack, FormControl } from '@mui/material';
 // import { Form } from 'react-router';
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { postProfileUpload } from '../../services/profile';
 import  CircularProgress  from "@mui/material/CircularProgress";
 import {Snackbar} from '@mui/material';
+import { useUserContext } from "../../contexts";
+import { getQuota } from '../../services/user';
 
 export default function PanelNew({ value, index, userId }: PanelNewProps) {
     const [fileInputStatus, setFileInputStatus] = useState<number>(1);
+
     const [fileArr, setFileArr] = useState<Array<File>>([]);
     const [notifyMsg, setNotifyMsg] = useState<string>("");
     const [notifyOpen, setNotifyOpen] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const uploadInputRef = useRef<HTMLFormElement | null>(null);
+    const { userData: user} = useUserContext();
+    const initBanner = `${user?.tier} Plan: You have ${user?.max - user?.current} uploads left this month`;
+    const [bannerMsg, setBannerMsg] = useState<string>(initBanner);
+
     const handleClick = (): void => {
         fileInputRef.current?.click();
     }
@@ -48,6 +55,27 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
             setNotifyOpen(true);
         }
     });
+
+    const {data, isSuccess} = useQuery({
+        queryKey:['get-quota'],
+        queryFn:() => getQuota(user?.id),
+        enabled:notifyOpen
+    });
+
+    useEffect(() => {
+        if(isSuccess && data && 'remainder' in data){
+            const { remainder } = data;
+            switch(remainder) {
+                case 0 :
+                setBannerMsg("You maxed out on your upload quota this month!")
+                break;
+                default:
+                    setBannerMsg(`${user?.tier} Plan: You have ${remainder} uploads left this month`)
+            }
+        }
+
+    },[isSuccess, data, setBannerMsg]);
+
     const handleSubmit = (): void => {
         const uploadForm = uploadInputRef.current;
         if (!uploadForm) return;
@@ -71,7 +99,9 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
 
     return (
         <TabPanel value={value} index={index}>
-            new content
+            <div className="notification-banner">
+                {bannerMsg}
+            </div>
             <form
                 // onSubmit={handleSubmit(onSubmit)}
                 id="select-form"
