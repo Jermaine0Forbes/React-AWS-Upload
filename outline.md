@@ -28,8 +28,8 @@
 - ~~create service to fetch media~~
 - ~~style media page~~
 - ~~work on home page~~
-- create endpoint to get all content
-- create service to fetch all content
+- ~~create endpoint to get all content~~
+- ~~create service to fetch all content~~
 - construct content components
 - show plan and quota in user profile
 - create response if upload exceeds quota

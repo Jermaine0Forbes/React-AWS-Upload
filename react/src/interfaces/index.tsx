@@ -57,4 +57,13 @@ export interface UserContextProps {
 }
 
 
+export interface ContentData {
+
+    path: string,
+    id: number,
+    name: string,
+    views: number,
+    created_at: object
+}
+
 
