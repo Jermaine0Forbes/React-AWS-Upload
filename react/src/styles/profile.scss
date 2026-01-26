@@ -10,6 +10,15 @@
         padding-top: 1em;
     }
 
+    .max-message {
+        display:flex;
+        align-items: center;
+        color:gray;
+        svg{
+            font-size: 1.2em;
+        }
+    }
+
     #media-container {
         max-height: 400px;
         overflow-y: auto;

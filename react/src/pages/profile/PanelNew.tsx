@@ -16,6 +16,7 @@ import  CircularProgress  from "@mui/material/CircularProgress";
 import {Snackbar} from '@mui/material';
 import { useUserContext } from "../../contexts";
 import { getQuota } from '../../services/user';
+import ReportIcon from '@mui/icons-material/Report';
 
 export default function PanelNew({ value, index, userId }: PanelNewProps) {
     const [fileInputStatus, setFileInputStatus] = useState<number>(1);
@@ -80,15 +81,20 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
 
     const maxedOut = () => {
          console.log('maxed out')
+         setFileInputStatus(5);
+         setBannerMsg("You have maxed out your upload quota for this month")
     };
 
     useEffect(() => {
+        if(quota?.remainder === 0) {
+            maxedOut();
+        }
+
         if(isSuccess && data && 'remainder' in data){
             const { remainder } = data;
             switch(remainder) {
                 case 0 :
                 maxedOut();
-                setBannerMsg("You maxed out on your upload quota this month!")
                 break;
                 default:
                     setBannerMsg(`${user?.tier} Plan: You have ${remainder} uploads left this month`)
@@ -96,7 +102,7 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
             setQuota({...data})
         }
 
-    },[isSuccess, data, setBannerMsg]);
+    },[isSuccess, data, setBannerMsg, quota]);
 
     const handleSubmit = (): void => {
         const uploadForm = uploadInputRef.current;
@@ -199,6 +205,11 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
                 className={fileInputStatus == 3 ? "file-upload" : "file-upload hidden"}
             >
                     <CircularProgress/>
+            </div>
+            <div
+                className={fileInputStatus == 4 ? "file-upload" : "file-upload hidden"}
+            >
+                <Typography variant="h3" className="max-message"><ReportIcon/> Maxed Out!</Typography>
             </div>
             <Snackbar
                 anchorOrigin={{vertical: "bottom", horizontal:"center"}}

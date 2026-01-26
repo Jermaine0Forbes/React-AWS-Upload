@@ -33,7 +33,7 @@
 - ~~construct content components~~
 - ~~show plan and quota in user profile~~
 - ~~create response if upload exceeds quota~~
-- create response if user maxes out uploads
+- ~~create response if user maxes out uploads~~
 - work on signup page
 - create register api
 - return jwt token
