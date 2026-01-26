@@ -49,7 +49,6 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
         }
     });
     const handleSubmit = (): void => {
-        console.log(uploadInputRef.current)
         const uploadForm = uploadInputRef.current;
         if (!uploadForm) return;
         setFileInputStatus(3);
@@ -67,7 +66,6 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
             fileData.append("metadata-"+i, JSON.stringify(metadata));
 
         }
-        console.log(fileData);
         uploadMutation.mutate({id: userId, data:fileData});
     }
 

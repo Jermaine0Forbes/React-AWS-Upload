@@ -7,6 +7,7 @@ import Profile from './pages/profile/Profile';
 import Content from './pages/Content';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Media from './pages/Media';
 import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
@@ -16,9 +17,15 @@ const router = createBrowserRouter([
      children: [
        { index: true, Component: Home },
        { path: 'profile', children: [
-        // {index: true, Component: Profile},
         {path: ":id", Component: Profile},
        ],
+        },
+        {
+          path: 'media', children: [
+            {
+              path:":id", Component:Media,
+            }
+          ]
         },
        { path: 'content', Component: Content},
        { path: 'login', Component: Login },

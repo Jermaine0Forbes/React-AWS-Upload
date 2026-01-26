@@ -1,5 +1,7 @@
 // import React from "react";
 import { useRouteError} from "react-router";
+import { Container, Card,  CardContent, Typography } from "@mui/material";
+// import ErrorIcon from '@mui/icons-material/Error';
 
 export default function ErrorPage()
 {
@@ -7,10 +9,21 @@ export default function ErrorPage()
     console.error(err)
 
     return(
-        <section>
-            <p>{ err?.statusText || err?.message}</p>
+        <Container maxWidth="lg" component={"main"} style={{marginTop:'1em'}}>
+            <Card component={'section'}>
+                <CardContent>
+                    <Typography variant="h3">
+                        {/* <ErrorIcon style={{fontSize:"1em"}}/> */}
+                        Error
+                    </Typography>
+                    <Typography variant="subtitle1">
+                    <p>Message: { err?.statusText || err?.message}</p>
 
-        </section>
+                    </Typography>
+
+                </CardContent>
+            </Card>
+        </Container>
 
     );
 }

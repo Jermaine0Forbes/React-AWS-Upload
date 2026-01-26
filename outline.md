@@ -22,9 +22,10 @@
 - ~~upload file to bucket~~
 - ~~create api to retrieve files from bucket~~
 - ~~create fetch service to get s3 files~~
-- construct user media content components
-- create media page
-- show image on media page
+- ~~construct user media content components~~
+- ~~create media page~~
+- create endpoint to get media
+- style media page
 - work on home page
 - work on signup page
 - create register api
