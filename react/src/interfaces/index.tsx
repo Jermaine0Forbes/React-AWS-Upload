@@ -19,7 +19,7 @@ export interface UploadDataProps {
 
 export interface MediaBlockProps {
 
-    userId: number,
+    userId: number | undefined,
     mediaId: number,
     path: string,
     name: string,
@@ -56,6 +56,11 @@ export interface UserContextProps {
     userData: Response | UserData | undefined;
 }
 
+export interface CreatedAtObj {
+    date: string | undefined,
+    timezone_type: number,
+    timezone: string,
+}
 
 export interface ContentData {
 
@@ -63,7 +68,7 @@ export interface ContentData {
     id: number,
     name: string,
     views: number,
-    created_at: object
+    created_at: CreatedAtObj | string
 }
 
 

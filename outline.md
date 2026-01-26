@@ -30,7 +30,7 @@
 - ~~work on home page~~
 - ~~create endpoint to get all content~~
 - ~~create service to fetch all content~~
-- construct content components
+- ~~construct content components~~
 - show plan and quota in user profile
 - create response if upload exceeds quota
 - create response if user maxes out uploads

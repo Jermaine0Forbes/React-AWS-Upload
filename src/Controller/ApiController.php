@@ -120,7 +120,7 @@ final class ApiController extends AbstractController
             ], 500);
         }
     }
-    #[Route('/api/user/{id}/content', name: 'app_api_get_content', methods: ['GET'])]
+    #[Route('/api/user/{id}/content', name: 'app_api_get_user_content', methods: ['GET'])]
     public function getUserContent(Request $request, UserService $us ): JsonResponse
     {
         $content = $us->retrieveContent($request);

@@ -1,0 +1,29 @@
+@use '_var' as *;
+
+
+#content {
+
+    .avatar {
+        width: 80px;
+        height: 80px
+    }
+    .content-block {
+        margin-top:1em;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+            cursor:pointer;
+            opacity: 0.5;
+        }
+    }
+    #content-container {
+        margin-top: 1em;
+    }
+
+    .name {
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        width:560px;
+        overflow:hidden;
+    }
+
+}

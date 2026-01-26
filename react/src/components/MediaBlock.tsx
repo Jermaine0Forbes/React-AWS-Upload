@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 
 
-export default function MediaBlock({ userId, mediaId, path, name, description, views }: MediaBlockProps) {
+export default function MediaBlock({  mediaId, path, name, description, views }: MediaBlockProps) {
     return (
         <Box
         className="media-block"
