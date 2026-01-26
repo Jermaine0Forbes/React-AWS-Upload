@@ -16,11 +16,10 @@ final class ContentService
         private EntityManagerInterface $entityManager,
         private S3 $s3,
 
-    ) {
-    }
+    ) {}
 
 
-    public function getMedia(Content $c):array 
+    public function getMedia(Content $c): array
     {
         $url = $this->s3->retrieve($c->getPath());
         return [
@@ -32,6 +31,24 @@ final class ContentService
             "username" => $c->getUser()->getUsername(),
             "userId" => $c->getUser()->getId(),
         ];
+    }
 
+    public function getContent(): array
+    {
+        $collection =  $this->entityManager->getRepository(Content::class)->findBy([], ['id' => 'DESC']);
+        $content = [];
+        foreach ($collection as  $item) {
+            $url = $this->s3->retrieve($item->getPath());
+            $content[] = [
+                "path" => $url,
+                "id" => $item->getId(),
+                "name" => $item->getName(),
+                "views" => $item->getViews(),
+                "created_at" => $item->getCreatedAt(),
+
+            ];
+        }
+
+        return $content;
     }
 }

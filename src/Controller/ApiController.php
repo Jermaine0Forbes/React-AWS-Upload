@@ -128,6 +128,14 @@ final class ApiController extends AbstractController
         return  $this->json($content);
     }
 
+
+    #[Route('/api/credentials', name: 'app_api_credentials', methods: ['GET'])]
+    public function getCreds(Request $request,
+    #[Autowire(service: 's3_service')] S3 $s3){
+        $url = $s3->retrieve();
+        return new Response("</img src='$url' />", 200, ['content-type' => 'text/html']);
+    }
+
     #[Route('/api/media/{id:content}', name: 'app_api_get_media', methods: ['GET'])]
     public function getMediaData( Content $content, ContentService $cs ): JsonResponse
     {
@@ -136,10 +144,12 @@ final class ApiController extends AbstractController
         return  $this->json($media);
     }
 
-    #[Route('/api/credentials', name: 'app_api_credentials', methods: ['GET'])]
-    public function getCreds(Request $request,
-    #[Autowire(service: 's3_service')] S3 $s3){
-        $url = $s3->retrieve();
-        return new Response("</img src='$url' />", 200, ['content-type' => 'text/html']);
+    #[Route('/api/content', name: 'app_api_get_content', methods: ['GET'])]
+    public function getContentData(  ContentService $cs ): JsonResponse
+    {
+        $content = $cs->getContent();
+
+        return  $this->json($content);
     }
+
 }
