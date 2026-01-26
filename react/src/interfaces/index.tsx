@@ -27,3 +27,32 @@ export interface MediaBlockProps {
     views: number
 }
 
+export interface MediaData {
+    path: string,
+    id: number,
+    name: string,
+    description: string,
+    views: number
+}
+
+export interface UserData {
+    id: number,
+    username: string,
+    email: string,
+    tier: string,
+    created_at: object,
+    status: undefined
+    
+}
+
+export interface UserDataContext {
+    userData: object
+} 
+
+export interface UserContextProps {
+    // userData: Response | UserDataContext | undefined;
+    userData: Response | UserData | undefined;
+}
+
+
+

@@ -33,7 +33,9 @@ class S3
             // throw \AwsException($e->getMessage());
         }
 
-        return $result->get('ObjectURL');
+        // $x = str_replace('http', 'https', $result->get('ObjectURL'));
+
+        return  $result->get('ObjectURL');
     }
 
 
@@ -68,7 +70,16 @@ class S3
     private function getUrl($command):string
     {
         $exp = "+3 minutes";
-        return $this->s3->createPresignedRequest($command, $exp)->getUri();
-
+        $url  = (string)$this->s3->createPresignedRequest($command, $exp)->getUri();
+        // $replaced = str_replace("https://my-example-bucket-jf-1.s3.us-east-2.amazonaws.com/http%3A/",
+        // "https:/"
+        // ,
+        // $url
+        // );
+        // $decode = json_decode($replaced);
+        // $decode = json_encode($replaced);
+        // $decode = urlencode($replaced);
+        // $decode = urldecode($replaced);
+        return $url;
     }
 }

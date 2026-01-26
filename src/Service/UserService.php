@@ -51,7 +51,7 @@ final class UserService
         $this->checkUser($id);
         $user = $this->getUser();
         $content = [];
-        $collection = $user->getContents()->toArray();
+        $collection = array_reverse($user->getContents()->toArray());
 
         foreach( $collection as $key => $item) {
             $url = $this->s3->retrieve($item->getPath());

@@ -1,34 +1,40 @@
-import type { MediaBlockProps} from "../interfaces";
-import  Block  from "@mui/icons-material/Block";
-import  Grid  from "@mui/material/Grid";
+import type { MediaBlockProps } from "../interfaces";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { Link } from "react-router";
-import  Typography from "@mui/material/Typography";
+import Typography from "@mui/material/Typography";
+import { Avatar } from "@mui/material";
 
 
-export default function MediaBlock({ userId, mediaId, path, name, description, views}: MediaBlockProps) {
-
+export default function MediaBlock({ userId, mediaId, path, name, description, views }: MediaBlockProps) {
     return (
-        <Block
-         component={Link}
-         to={`/user/${userId}/media/${mediaId}`}
+        <Box
+        className="media-block"
         >
-            <Card>
+            <Card className="media-card" variant="outlined">
+                <Link
+                    to={`/media/${mediaId}`}
+                >
+                <Grid container spacing={2} className="grid-group">
+                    <Grid size={1} className="grid grid-1">
+                        <Avatar src={path} />
 
-            <Grid container spacing={2}>
-                <Grid size={4}>
-                    <img src={path}/>
+                    </Grid>
+                    <Grid size={8} className="grid grid-2">
+                        <Typography variant="h6">{name}</Typography>
+                        <Typography variant="body2">Description: {description}</Typography>
+                        <Typography variant="body2">Views: {views}</Typography>
 
+                    </Grid>
                 </Grid>
-                <Grid size={8}>
-                <Typography variant="h6">{name}</Typography>
-                <Typography variant="body2">{description}</Typography>
 
-                </Grid>
-            </Grid>
+
+                </Link>
+
 
             </Card>
-        </Block>
+        </Box>
 
     )
 

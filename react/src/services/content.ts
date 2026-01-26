@@ -1,5 +1,6 @@
+import { type MediaData } from "../interfaces";
 
-export async function getUserContent(userId: number): Promise<Response> {
+export async function getUserContent(userId: number): Promise<MediaData[]> {
     const API_URL = import.meta.env.VITE_SYMFONY_URL+`/api/user/${userId}/content`;
     return await fetch(API_URL, {
         method: "GET",

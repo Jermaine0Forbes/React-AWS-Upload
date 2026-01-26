@@ -108,6 +108,7 @@ class FileUploader
                 $originalFilename = pathinfo($filename, PATHINFO_FILENAME);
                 $safeFilename = $this->slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                $type = $file->getMimeType();
 
                 $connection = $this->entityManager->getConnection();
                 try {
@@ -117,10 +118,11 @@ class FileUploader
                     $file->move($this->targetDirectory, $newFilename);
                     $subLimit = $this->subLimit;
                     $sourceFile = $this->targetDirectory . '/' . $newFilename;
+                    $key = $this->getuser()->getUsername().'/'.$originalFilename;
                     $this->logger->info('file moved to: ' . $sourceFile);
                     $objectUrl = $this->s3->upload([
-                        "Key" => $this->getuser()->getUsername().'/'.$originalFilename,
-                         "ContentType" => 'text/plain',
+                        "Key" => $key,
+                         "ContentType" => $type,
                          "SourceFile" => $sourceFile,
                          "Metadata" => [
                             "tier" => $subLimit->getTier(),
@@ -135,7 +137,7 @@ class FileUploader
 
                     // Save file info to the database
                     $content = new Content();
-                    $content->setPath($objectUrl);
+                    $content->setPath($key);
                     $content->setName($originalFilename);
                     $content->setDescription($description);
                     $content->setUser($this->getUser());

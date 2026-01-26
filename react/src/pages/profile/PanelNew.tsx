@@ -12,10 +12,14 @@ import { Button, FormGroup, TextField, Card, CardContent, Stack, FormControl } f
 // import { Form } from 'react-router';
 import { useMutation } from "@tanstack/react-query";
 import { postProfileUpload } from '../../services/profile';
+import  CircularProgress  from "@mui/material/CircularProgress";
+import {Snackbar} from '@mui/material';
 
 export default function PanelNew({ value, index, userId }: PanelNewProps) {
-    const [toggleFileInput, setToggleFileInput] = useState<boolean>(true);
+    const [fileInputStatus, setFileInputStatus] = useState<number>(1);
     const [fileArr, setFileArr] = useState<Array<File>>([]);
+    const [notifyMsg, setNotifyMsg] = useState<string>("");
+    const [notifyOpen, setNotifyOpen] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const uploadInputRef = useRef<HTMLFormElement | null>(null);
     const handleClick = (): void => {
@@ -26,23 +30,29 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
         if (files) {
             const arr = Array.from(files);
             setFileArr(arr);
-            setToggleFileInput(false);
+            setFileInputStatus(2);
         }
     }
 
     const handleCancel = (): void => {
         setFileArr([]);
-        setToggleFileInput(true);
+        setFileInputStatus(1);
     }
 
     const uploadMutation = useMutation({
         mutationFn: postProfileUpload,
-        onSuccess: async (data) => { console.log(await data.json());}
+        onSuccess: async (data) => { 
+            console.log(await data.json());
+            setFileInputStatus(1);
+            setNotifyMsg('Media uploaded successfully!');
+            setNotifyOpen(true);
+        }
     });
     const handleSubmit = (): void => {
         console.log(uploadInputRef.current)
         const uploadForm = uploadInputRef.current;
         if (!uploadForm) return;
+        setFileInputStatus(3);
         const contentData = new FormData(uploadForm);
         const fileData = new FormData();
         let metadata: Record<string, FormDataEntryValue | null> = {};
@@ -68,7 +78,7 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
                 // onSubmit={handleSubmit(onSubmit)}
                 id="select-form"
                 onClick={handleClick}
-                className={toggleFileInput ? "file-input" : "file-input-toggle hidden"}
+                className={fileInputStatus == 1 ? "file-input" : "file-input-toggle hidden"}
             >
                 <input type="file" name="files" multiple
                     ref={fileInputRef}
@@ -89,7 +99,7 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
 
             <div
                 id="upload-list"
-                className={!toggleFileInput ? "file-upload" : "file-upload hidden"}
+                className={fileInputStatus == 2 ? "file-upload" : "file-upload hidden"}
             >
                 <form
                     id="upload-form"
@@ -117,7 +127,6 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
                                             <TextField
                                                 variant='standard'
                                                 id="description"
-                                                // name={"description[]"}
                                                 name={"description-" + index}
                                                 placeholder="enter file description"
                                             />
@@ -135,6 +144,18 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
                 <Button onClick={handleCancel}>cancel</Button>
                 <Button onClick={handleSubmit}>upload</Button>
             </div>
+            <div
+                className={fileInputStatus == 3 ? "file-upload" : "file-upload hidden"}
+            >
+                    <CircularProgress/>
+            </div>
+            <Snackbar
+                anchorOrigin={{vertical: "bottom", horizontal:"center"}}
+                open={notifyOpen}
+                onClose={() => setNotifyOpen(false)}
+                message={notifyMsg}
+                autoHideDuration={3000}
+            />
         </TabPanel>
 
     )

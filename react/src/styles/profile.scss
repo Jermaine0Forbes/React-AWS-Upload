@@ -6,7 +6,37 @@
     .group-container {
         margin-top: 1em;
         background-color: white;
-        min-height: 500px
+        min-height: 500px;
+        padding-top: 1em;
+    }
+
+    #media-container {
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 1em;
+
+        .grid-1 {
+
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            
+
+        }
+
+        .media-block {
+            margin-bottom: 2em;
+
+        }
+
+        .media-card {
+            transition: all 0.3s ease-in-out;
+            padding:0.5em 0;
+            &:hover {
+                background-color: $light-gray;
+            }
+        }
+
     }
 
     #select-form {
@@ -45,8 +75,8 @@
 
     #upload-form {
 
-        max-height:400px;
-        overflow-y:auto;
+        max-height: 400px;
+        overflow-y: auto;
 
         .card-content {
             width: 100%;

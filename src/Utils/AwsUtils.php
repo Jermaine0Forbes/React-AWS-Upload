@@ -27,10 +27,17 @@ final class AwsUtils{
   public function getS3():S3Client
   {
 
+  // $cacertPath = dirname(__DIR__, 2)."\cacert.pem";
+
    return new S3Client([
      "region" => $this->region,
-     "version" => $this->apiVersion,
+     "version" => 'latest',
      "scheme" => "http",
+    'profile' => 's3user',
+    // "http" =>  [ 
+    //   'cert' => [$cacertPath, ''],
+    // ],
+
    ]);
   }
 
