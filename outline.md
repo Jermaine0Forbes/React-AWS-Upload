@@ -24,7 +24,7 @@
 - ~~create fetch service to get s3 files~~
 - ~~construct user media content components~~
 - ~~create media page~~
-- create endpoint to get media
+- ~~create endpoint to get media~~
 - create service to fetch media
 - style media page
 - work on home page

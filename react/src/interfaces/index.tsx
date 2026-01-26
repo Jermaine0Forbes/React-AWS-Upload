@@ -32,7 +32,9 @@ export interface MediaData {
     id: number,
     name: string,
     description: string,
-    views: number
+    views: number,
+    username: undefined | string,
+    userId: undefined | string,
 }
 
 export interface UserData {
