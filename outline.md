@@ -21,7 +21,7 @@
 - ~~create identity with limited privileges~~
 - ~~upload file to bucket~~
 - ~~create api to retrieve files from bucket~~
-- create fetch service to get s3 files
+- ~~create fetch service to get s3 files~~
 - construct user media content components
 - create media page
 - show image on media page

@@ -17,3 +17,13 @@ export interface UploadDataProps {
     data: FormData;
 }
 
+export interface MediaBlockProps {
+
+    userId: number,
+    mediaId: number,
+    path: string,
+    name: string,
+    description: string,
+    views: number
+}
+
