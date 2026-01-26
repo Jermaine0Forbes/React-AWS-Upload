@@ -25,6 +25,7 @@
 - ~~construct user media content components~~
 - ~~create media page~~
 - create endpoint to get media
+- create service to fetch media
 - style media page
 - work on home page
 - work on signup page

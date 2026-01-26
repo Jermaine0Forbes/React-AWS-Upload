@@ -46,4 +46,8 @@ services:
         arguments:
             $s3: '@s3_service'
 
+    App\Service\ContentService:
+        arguments:
+            $s3: '@s3_service'
+
 

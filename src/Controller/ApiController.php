@@ -10,8 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\FileUploader;
 use App\Service\S3;
 use App\Service\UserService;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Service\ContentService;
 use App\Entity\User;
+use App\Entity\Content;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\SubscriptionLimit;
 use App\Entity\Plan;
 use App\Utils\AwsUtils;
@@ -124,6 +126,14 @@ final class ApiController extends AbstractController
         $content = $us->retrieveContent($request);
 
         return  $this->json($content);
+    }
+
+    #[Route('/api/media/{id:content}', name: 'app_api_get_media', methods: ['GET'])]
+    public function getMediaData( Content $content, ContentService $cs ): JsonResponse
+    {
+        $media = $cs->getMedia($content);
+
+        return  $this->json($media);
     }
 
     #[Route('/api/credentials', name: 'app_api_credentials', methods: ['GET'])]
