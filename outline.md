@@ -26,8 +26,8 @@
 - ~~create media page~~
 - ~~create endpoint to get media~~
 - ~~create service to fetch media~~
-- style media page
-- work on home page
+- ~~style media page~~
+- ~~work on home page~~
 - create endpoint to get all content
 - create service to fetch all content
 - construct content components

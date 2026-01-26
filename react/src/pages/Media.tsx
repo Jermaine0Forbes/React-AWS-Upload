@@ -36,7 +36,7 @@ export default function Media() {
             <Container maxWidth="lg" component={'section'}>
                 <Card>
                     {
-                        data && !isLoading ? (
+                        data  && !isLoading ? (
                             <>
                                 <CardMedia
                                     image={"path" in data ? data.path : ""}
@@ -71,7 +71,7 @@ export default function Media() {
                             </>
                         )
                             :
-                            <div>
+                            <div style={{padding:"1em"}}>
                                 <Skeleton variant="rectangular"
                                     width={400} height={72}
                                     style={{ marginTop: '1em', display: 'block' }}
