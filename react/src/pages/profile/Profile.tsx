@@ -30,8 +30,6 @@ export default function Profile() {
     });
 
     useEffect(() => {
-        // console.log(userData)
-        // console.log(error)
         if ((!isLoading && (!userData || userData?.status === 404)) || error) {
             console.log("redirecting...");
             redirect('/');

@@ -2,8 +2,33 @@
 
 #media {
 
+    .description {
+        font-size:1.5em;
+        margin-top: 0.5em;
+    }
 
-    .profile-link{
-        display: block;
+    #image {
+
+        min-height: 300px;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+            cursor:pointer;
+            opacity: 0.8;
+        }
+    }
+    .name {
+
+        font-size:3em;
+    }
+    // .profile-link{
+    //     // display: block;
+    // }
+    .views{
+        font-size:1em;
+        display: flex;
+        align-items: center;
+        svg {
+            margin-right:0.5em;
+        }
     }
 }
