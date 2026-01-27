@@ -6,6 +6,9 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useMutation } from '@tanstack/react-query';
+import { registerUser } from '../services/user';
+
 
 export default function Signup() {
     const stepTitles = ['Fill out Form', 'Choose Plan', 'Review'];
@@ -25,17 +28,26 @@ export default function Signup() {
         return skipped.has(step);
     };
 
+
+    const signupMutation = useMutation({
+        mutationFn: registerUser,
+        onSuccess: async (data) => {
+            console.log(data);
+
+        }
+    });
+
     const handleSubmit = () => {
 
         const wizardForm = formRef.current;
-        if(!wizardForm) return;
+        if (!wizardForm) return;
         const form = new FormData(wizardForm);
-        console.log(form)
+        signupMutation.mutate(form)
     }
 
     const handleNext = () => {
 
-        if(activeStep === stepTitles.length - 1) {
+        if (activeStep === stepTitles.length - 1) {
             handleSubmit();
         }
         let newSkipped = skipped;
@@ -47,6 +59,7 @@ export default function Signup() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
     };
+
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
