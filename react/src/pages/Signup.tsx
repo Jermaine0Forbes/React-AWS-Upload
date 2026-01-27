@@ -8,17 +8,19 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../services/user';
+import { useNavigate } from 'react-router';
 
 
 export default function Signup() {
     const stepTitles = ['Fill out Form', 'Choose Plan', 'Review'];
     const [activeStep, setActiveStep] = useState(0);
     const [plan, setPlan] = useState<number>(1);
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [username, setUsername] = useState<string>('user1');
+    const [email, setEmail] = useState<string>('jermaine0forbes@gmail.com');
+    const [password, setPassword] = useState<string>('password');
     const [skipped, setSkipped] = useState(new Set<number>());
     const formRef = useRef(null);
+    const redirect = useNavigate();
 
     const isStepOptional = (step: number) => {
         return step === 1;
@@ -33,7 +35,8 @@ export default function Signup() {
         mutationFn: registerUser,
         onSuccess: async (data) => {
             console.log(data);
-
+            localStorage.setItem('current_user', data);
+            redirect('/profile/'+data?.id);
         }
     });
 
@@ -42,6 +45,8 @@ export default function Signup() {
         const wizardForm = formRef.current;
         if (!wizardForm) return;
         const form = new FormData(wizardForm);
+
+        form.append('tier_id', plan.toString());
         signupMutation.mutate(form)
     }
 

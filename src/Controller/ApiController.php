@@ -160,4 +160,10 @@ final class ApiController extends AbstractController
         return  $this->json($quota);
     }
 
+    #[Route('/api/user/register', name: 'app_api_user_register', methods: ['POST'])]
+    public function registerUser(Request $request, UserService $us):JsonResponse
+    {
+        $user  = $us->register($request);
+        return $this->json($user);
+    }
 }

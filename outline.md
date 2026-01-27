@@ -35,10 +35,10 @@
 - ~~create response if upload exceeds quota~~
 - ~~create response if user maxes out uploads~~
 - ~~work on signup page~~
-- create service to handle registration
-- create register endpoint
-- return jwt token
+- ~~create service to handle registration~~
+- ~~create register endpoint~~
 - user can only view uploads from other users
+- return jwt token
 
 
 

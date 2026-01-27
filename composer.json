@@ -33,7 +33,8 @@
             "symfony/runtime": true
         },
         "bump-after-update": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "cafile": "C:\\wamp64\\www\\symf\\api_upload\\cacert.pem"
     },
     "autoload": {
         "psr-4": {
