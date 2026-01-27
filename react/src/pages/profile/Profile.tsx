@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -8,17 +7,21 @@ import { useParams, useNavigate } from 'react-router';
 import PanelNew from './PanelNew';
 import PanelProfile from './PanelProfile';
 import PanelUploads from './PanelUploads';
+import GeneralUploads from './GeneralUploads';
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from '../../services/user';
-import { UserContext } from '../../contexts';
+import { AuthContext, UserContext } from '../../contexts';
 import { Skeleton } from '@mui/material';
 
 
 export default function Profile() {
     const [tabIndex, setTabIndex] = useState<number>(0);
+    const [isUser, setIsUser] = useState<boolean>(false);
     const { id } = useParams<{ id: string }>();
     const userId: number = id ? parseInt(id) : 0;
     const redirect = useNavigate();
+    const { state } = useContext(AuthContext);
+    const { cu, loggedIn } = state;
 
     if (Number.isNaN(Number(id))) {
         redirect('/');
@@ -34,15 +37,47 @@ export default function Profile() {
             console.log("redirecting...");
             redirect('/');
         }
-    }, [isLoading, userData]);
+        if (userData && "id" in userData) {
+
+            if (loggedIn && cu?.id == userData?.id && !isUser) {
+                setIsUser(true);
+            }
+        }
+    }, [isLoading, userData, cu, loggedIn]);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setTabIndex(newValue);
     };
 
+    const MainComponent = () => {
 
+        if (isUser) {
 
+            return (
+
+                <>
+                    <Tabs
+                        value={tabIndex}
+                        aria-label="Profile Tabs"
+                        onChange={handleChange}
+                    >
+                        <Tab label="New" />
+                        <Tab label="Profile" />
+                        <Tab label="Uploads" />
+                    </Tabs>
+                    <PanelNew userId={userId} value={tabIndex} index={0} />
+                    <PanelProfile value={tabIndex} index={1} />
+                    <PanelUploads value={tabIndex} index={2} />
+
+                </>
+            );
+        }
+
+        return (
+            <GeneralUploads/>
+        );
+    }
     return (
         <main
             id="profile">
@@ -55,7 +90,7 @@ export default function Profile() {
                                 variant="h2"
                                 className="username"
                             >
-                               {"username" in userData && userData?.username}
+                                {"username" in userData && userData?.username}
                             </Typography>
                             :
 
@@ -67,30 +102,19 @@ export default function Profile() {
                     }
                     <section>
                         {
-                            userData ?
+                            !userData ?
 
-                                <>
-                                    <Tabs
-                                        value={tabIndex}
-                                        aria-label="Profile Tabs"
-                                        onChange={handleChange}
-                                    >
-                                        <Tab label="New" />
-                                        <Tab label="Profile" />
-                                        <Tab label="Uploads" />
-                                    </Tabs>
-                                    <PanelNew userId={userId} value={tabIndex} index={0} />
-                                    <PanelProfile value={tabIndex} index={1} />
-                                    <PanelUploads value={tabIndex} index={2} />
+                                (
 
-                                </>
+                                    <Skeleton variant="rectangular"
+                                        width={600} height={300}
+                                        style={{ marginTop: '1em', display: 'block' }} />
+                                )
                                 :
 
-                                <Skeleton variant="rectangular"
-                                    width={600} height={300}
-                                    style={{ marginTop: '1em', display: 'block' }} />
-
+                                <MainComponent />
                         }
+
                     </section>
 
                 </Container>

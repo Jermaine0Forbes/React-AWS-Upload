@@ -16,7 +16,6 @@ use App\Entity\Content;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\SubscriptionLimit;
 use App\Entity\Plan;
-use App\Utils\AwsUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpFoundation\Response;
@@ -166,4 +165,13 @@ final class ApiController extends AbstractController
         $user  = $us->register($request);
         return $this->json($user);
     }
+
+    #[Route('/api/user/login', name: 'app_api_user_login', methods: ['POST'])]
+    public function loginUser(Request $request, UserService $us):JsonResponse
+    {
+        $user = $us->login($request);
+        return $this->json($user);
+    }
+
+
 }

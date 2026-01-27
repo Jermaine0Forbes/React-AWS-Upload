@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Container, FormControl, TextField, FormGroup, FormLabel, Divider, Grid, Select, MenuItem } from "@mui/material";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../services/user';
 import { useNavigate } from 'react-router';
-
+import { AuthContext } from '../contexts';
 
 export default function Signup() {
     const stepTitles = ['Fill out Form', 'Choose Plan', 'Review'];
@@ -21,6 +21,17 @@ export default function Signup() {
     const [skipped, setSkipped] = useState(new Set<number>());
     const formRef = useRef(null);
     const redirect = useNavigate();
+    const { state, dispatch} = useContext(AuthContext);
+    const { loggedIn, cu } = state;
+
+    useEffect(() => {
+
+        if (loggedIn && cu) {
+            redirect('/profile/' + cu?.id);
+
+        }
+
+    }, [loggedIn])
 
     const isStepOptional = (step: number) => {
         return step === 1;
@@ -35,8 +46,12 @@ export default function Signup() {
         mutationFn: registerUser,
         onSuccess: async (data) => {
             console.log(data);
-            localStorage.setItem('current_user', data);
-            redirect('/profile/'+data?.id);
+            localStorage.setItem('current_user', JSON.stringify(data));
+            dispatch({
+                type:"loggedIn",
+                value: data,
+            });
+
         }
     });
 

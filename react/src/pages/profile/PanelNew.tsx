@@ -90,9 +90,9 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
             maxedOut();
         }
 
-        if(isSuccess && data && 'remainder' in data){
+        if(isSuccess && data && 'remainder' in data && quota?.current !== data?.current){
             const { remainder } = data;
-            switch(remainder) {
+            switch(remainder ) {
                 case 0 :
                 maxedOut();
                 break;

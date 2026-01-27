@@ -1,40 +1,56 @@
-// import React, { 
-//     useState, 
-//     // useEffect 
-// } from 'react';
+import {
+    useEffect,
+    useContext,
+} from 'react';
 import {
     Outlet,
     Link,
-    // useNavigate
+    useNavigate
 } from "react-router";
 import AppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-// import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// import ScienceIcon from '@mui/icons-material/Science';
-// import LoginDialog from '../components/dialogs/LoginDialog';
-// import { DialogStatus} from "../types/index";
+import { AuthContext } from "../contexts";
 
 
 
 
 export default function DefaultLayout() {
+    const { state, dispatch } = useContext(AuthContext);
+    const { cu, loggedIn } = state;
+    const redirect = useNavigate();
 
-    // const [open, setOpen] = useState<DialogStatus>(false);
 
-    // const toggleOpen = (): void => {
-    //     setOpen(!open);
-    // }
+    const handleLogout = () => {
+        localStorage.removeItem('current_user');
+        dispatch({
+            type: 'loggedOut',
+            value: null,
+        })
+    };
+    const checkStorage = () => {
+
+        if (!loggedIn && cu == null) {
+            console.log(cu)
+            console.log('cu when logged out')
+            redirect('.')
+        }
+
+
+
+    }
+    useEffect(checkStorage, [loggedIn, cu]);
+
+
+
 
 
     return (
 
         <>
 
-            {/* <LoginDialog  open={open} setOpen={setOpen}/> */}
             <AppBar position="static" id="app-bar">
                 <Grid
                     container
@@ -71,32 +87,52 @@ export default function DefaultLayout() {
                             >
                                 Content
                             </Button>
+                            {
 
-                            <Button
-                                className="links"
-                                component={Link}
-                                to="/profile"
-                            >
-                                Profile
-                            </Button>
+                                cu && loggedIn && typeof cu === "object" ?
+                                    <>
+                                        <Button
+                                            className="links"
+                                            component={Link}
+                                            to={"/profile/" + cu?.id}
+                                        >
+                                            {'username' in cu && cu?.username}
+                                        </Button>
 
 
-                            <Button
-                                //  onClick={toggleOpen}
-                                className="links"
-                                component={Link}
-                                to="/login"
-                            >
-                                Login
-                            </Button>
+                                        <Button
+                                            className="links"
+                                            onClick={handleLogout}
+                                        >
+                                            Logout
+                                        </Button>
 
-                            <Button
-                                className="links"
-                                component={Link}
-                                to="/signup"
-                            >
-                                Signup
-                            </Button>
+
+                                    </>
+
+                                    :
+                                    <>
+
+                                        <Button
+                                            className="links"
+                                            component={Link}
+                                            to="/login"
+                                        >
+                                            Login
+                                        </Button>
+
+                                        <Button
+                                            className="links"
+                                            component={Link}
+                                            to="/signup"
+                                        >
+                                            Signup
+                                        </Button>
+
+                                    </>
+                            }
+
+
 
                         </nav>
 

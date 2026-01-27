@@ -78,4 +78,8 @@ export interface QuotaData {
     exceeding?: undefined | boolean,
 }
 
+export interface ChildrenProps {
+    children?: React.ReactNode
+}
+
 

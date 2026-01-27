@@ -12,3 +12,9 @@ const defaultUserContext = {
 export const UserContext = createContext<any | null >(defaultUserContext)
 
 export const useUserContext = () => useContext(UserContext);
+
+export const AuthStateContext = createContext<any>(null);
+
+export const AuthDispatchContext = createContext<any>(null)
+
+export const AuthContext = createContext<any>({cu: null});

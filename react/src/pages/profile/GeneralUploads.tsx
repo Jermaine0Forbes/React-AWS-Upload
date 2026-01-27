@@ -3,23 +3,24 @@ import { TabPanel } from "../../components/TabPanel";
 import type { TabPanelProps } from "../../interfaces";
 import MediaBlock from "../../components/MediaBlock";
 import { useQuery } from "@tanstack/react-query";
-import { getUserContent } from "../../services/content";
+import { getGeneralContent } from "../../services/content";
 import { AuthContext, useUserContext } from "../../contexts";
 import  CircularProgress  from "@mui/material/CircularProgress";
 import { type MediaData } from "../../interfaces";
 import { useParams } from "react-router";
 
-export default function PanelUploads({ value, index }: TabPanelProps) {
-    const { userData: user, tabIndex} = useUserContext();
+export default function GeneralUploads() {
+    const { userData: user} = useUserContext();
     const [ media, setMedia] = useState<MediaData[] | null | []>([]) 
-    const [panelVisible, setPanelVisible] = useState<boolean>(false)
+    // const [panelVisible, setPanelVisible] = useState<boolean>(false)
     const { id } = useParams<{ id: string }>();
     // const { state } = useContext(AuthContext);
     // const { loggedIn, cu } = state;
     const {data: mediaData, isLoading, error} = useQuery({
-            queryKey: ['get-user-content'],
-            queryFn: () => getUserContent(Number(id)),
-            refetchInterval: 3000,
+            queryKey: ['get-general-content'],
+            queryFn: () => getGeneralContent( id ??  user?.id),
+            // refetchInterval: 3000,
+            // enabled: panelVisible
         });
 
 
@@ -28,25 +29,17 @@ export default function PanelUploads({ value, index }: TabPanelProps) {
             if(error){
                 console.error(error)
             }
-            if(Array.isArray(mediaData) && mediaData.length > 0 && panelVisible) {
+            if(Array.isArray(mediaData) && mediaData.length > 0 ) {
 
                 setMedia([...mediaData])
             }
 
-            // if(!panelVisible){
-            //     setMedia([]);
-            // }
-            
-            if(tabIndex || value ){
 
-                setPanelVisible((tabIndex || value) === index)
-            }
-
-        },[error, mediaData, setMedia, setPanelVisible, panelVisible, tabIndex, index])
+        },[error, mediaData, setMedia])
 
 
     return (
-        <TabPanel value={value} index={index} >
+        <div>
             {
                ( isLoading || media?.length == 0 ) && 
                 <div>
@@ -69,7 +62,9 @@ export default function PanelUploads({ value, index }: TabPanelProps) {
 
 
             </div>
-        </TabPanel>
+
+
+        </div>
 
     )
 

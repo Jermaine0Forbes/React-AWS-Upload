@@ -9,7 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\DTO\RegisterDTO;
+use App\DTO\LoginDTO;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 final class UserService
 {
@@ -133,6 +135,26 @@ final class UserService
         } catch (\Exception $e) {
             $connection->rollBack();
             throw new \Exception('Could not register user');
+        }
+
+        return $this->createJwt($user);
+    }
+
+
+    public function login(Request $request):array
+    {
+        $req = $request->request;
+        $dto = new LoginDTO();
+        $dto->username = $req->get('username');
+        $dto->password = $req->get('password');
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $dto->username]);
+
+        if (!$user) {
+            throw new BadCredentialsException();
+        }
+        if (!$this->passwordHasher->isPasswordValid($user, $dto->password)) {
+            // Password is valid, proceed with authentication logic (e.g., generate a token)
+            throw new BadCredentialsException();
         }
 
         return $this->createJwt($user);

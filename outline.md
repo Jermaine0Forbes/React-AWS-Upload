@@ -37,7 +37,7 @@
 - ~~work on signup page~~
 - ~~create service to handle registration~~
 - ~~create register endpoint~~
-- user can only view uploads from other users
+- ~~user can only view uploads from other users~~
 - return jwt token
 
 
