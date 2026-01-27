@@ -63,5 +63,5 @@ symfony console make:migration
 symfony console doctrine:migrations:migrate
 
 // drop tables based on the migration version number that you'll find in database
-symfony console doctrine:migrations:execute DoctrineMigrations\Version20260124232337 --down
+symfony console doctrine:migrations:execute DoctrineMigrations\Version20260125003318 --down
 ```

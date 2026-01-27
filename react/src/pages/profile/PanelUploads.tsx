@@ -5,66 +5,68 @@ import MediaBlock from "../../components/MediaBlock";
 import { useQuery } from "@tanstack/react-query";
 import { getUserContent } from "../../services/content";
 import { AuthContext, useUserContext } from "../../contexts";
-import  CircularProgress  from "@mui/material/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { type MediaData } from "../../interfaces";
 import { useParams } from "react-router";
 
 export default function PanelUploads({ value, index }: TabPanelProps) {
-    const { userData: user, tabIndex} = useUserContext();
-    const [ media, setMedia] = useState<MediaData[] | null | []>([]) 
+    const { userData: user, tabIndex } = useUserContext();
+    const [media, setMedia] = useState<MediaData[] | null | []>([])
     const [panelVisible, setPanelVisible] = useState<boolean>(false)
     const { id } = useParams<{ id: string }>();
     // const { state } = useContext(AuthContext);
     // const { loggedIn, cu } = state;
-    const {data: mediaData, isLoading, error} = useQuery({
-            queryKey: ['get-user-content'],
-            queryFn: () => getUserContent(Number(id)),
-            refetchInterval: 3000,
-        });
+    const { data: mediaData, isLoading, error } = useQuery({
+        queryKey: ['get-user-content'],
+        queryFn: () => getUserContent(Number(id)),
+        refetchInterval: 30000,
+        staleTime: 0,
+        gcTime: 0,
+    });
 
 
 
-        useEffect(() => {
-            if(error){
-                console.error(error)
-            }
-            if(Array.isArray(mediaData) && mediaData.length > 0 && panelVisible) {
+    useEffect(() => {
+        if (error) {
+            console.error(error)
+        }
+        if (Array.isArray(mediaData) && mediaData.length > 0 && panelVisible) {
 
-                setMedia([...mediaData])
-            }
+            setMedia([...mediaData])
+        }
 
-            // if(!panelVisible){
-            //     setMedia([]);
-            // }
-            
-            if(tabIndex || value ){
+        // if(!panelVisible){
+        //     setMedia([]);
+        // }
 
-                setPanelVisible((tabIndex || value) === index)
-            }
+        if (tabIndex || value) {
 
-        },[error, mediaData, setMedia, setPanelVisible, panelVisible, tabIndex, index])
+            setPanelVisible((tabIndex || value) === index)
+        }
+
+    }, [error, mediaData, setMedia, setPanelVisible, panelVisible, tabIndex, index])
 
 
     return (
         <TabPanel value={value} index={index} >
             {
-               ( isLoading || media?.length == 0 ) && 
+                (isLoading || media?.length == 0) &&
                 <div>
-                    <CircularProgress/>
+                    <CircularProgress />
 
                 </div>
             }
             <div id="media-container">
                 {
-                !isLoading && media !== null && media?.length > 0 && media.map((data, index) => {
-                        return (<MediaBlock 
-                                key={index} 
-                                userId={user.id} mediaId={data.id} path={data.path} 
-                                name={data.name} description={data.description}
-                                views={data.views}
-                                />)
+                    !isLoading && media !== null && media?.length > 0 && media.map((data, index) => {
+                        return (<MediaBlock
+                            key={index}
+                            userId={user.id} mediaId={data.id} path={data.path}
+                            name={data.name} description={data.description}
+                            views={data.views}
+                        />)
 
-                        })
+                    })
                 }
 
 

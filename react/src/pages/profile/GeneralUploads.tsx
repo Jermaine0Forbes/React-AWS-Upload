@@ -5,59 +5,61 @@ import MediaBlock from "../../components/MediaBlock";
 import { useQuery } from "@tanstack/react-query";
 import { getGeneralContent } from "../../services/content";
 import { AuthContext, useUserContext } from "../../contexts";
-import  CircularProgress  from "@mui/material/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { type MediaData } from "../../interfaces";
 import { useParams } from "react-router";
 
 export default function GeneralUploads() {
-    const { userData: user} = useUserContext();
-    const [ media, setMedia] = useState<MediaData[] | null | []>([]) 
+    const { userData: user } = useUserContext();
+    const [media, setMedia] = useState<MediaData[] | null | []>([])
     // const [panelVisible, setPanelVisible] = useState<boolean>(false)
     const { id } = useParams<{ id: string }>();
     // const { state } = useContext(AuthContext);
     // const { loggedIn, cu } = state;
-    const {data: mediaData, isLoading, error} = useQuery({
-            queryKey: ['get-general-content'],
-            queryFn: () => getGeneralContent( id ??  user?.id),
-            // refetchInterval: 3000,
-            // enabled: panelVisible
-        });
+    const { data: mediaData, isLoading, error } = useQuery({
+        queryKey: ['get-general-content'],
+        queryFn: () => getGeneralContent(id ?? user?.id),
+        staleTime: 0,
+        gcTime: 0,
+        // refetchInterval: 3000,
+        // enabled: panelVisible
+    });
 
 
 
-        useEffect(() => {
-            if(error){
-                console.error(error)
-            }
-            if(Array.isArray(mediaData) && mediaData.length > 0 ) {
+    useEffect(() => {
+        if (error) {
+            console.error(error)
+        }
+        if (Array.isArray(mediaData) && mediaData.length > 0) {
 
-                setMedia([...mediaData])
-            }
+            setMedia([...mediaData])
+        }
 
 
-        },[error, mediaData, setMedia])
+    }, [error, mediaData, setMedia])
 
 
     return (
         <div>
             {
-               ( isLoading || media?.length == 0 ) && 
+                (isLoading || media?.length == 0) &&
                 <div>
-                    <CircularProgress/>
+                    <CircularProgress />
 
                 </div>
             }
             <div id="media-container">
                 {
-                !isLoading && media !== null && media?.length > 0 && media.map((data, index) => {
-                        return (<MediaBlock 
-                                key={index} 
-                                userId={user.id} mediaId={data.id} path={data.path} 
-                                name={data.name} description={data.description}
-                                views={data.views}
-                                />)
+                    !isLoading && media !== null && media?.length > 0 && media.map((data, index) => {
+                        return (<MediaBlock
+                            key={index}
+                            userId={user.id} mediaId={data.id} path={data.path}
+                            name={data.name} description={data.description}
+                            views={data.views}
+                        />)
 
-                        })
+                    })
                 }
 
 

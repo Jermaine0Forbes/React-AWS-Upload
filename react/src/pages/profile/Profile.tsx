@@ -20,7 +20,7 @@ export default function Profile() {
     const { id } = useParams<{ id: string }>();
     const userId: number = id ? parseInt(id) : 0;
     const redirect = useNavigate();
-    const { state } = useContext(AuthContext);
+    const { state, dispatch } = useContext(AuthContext);
     const { cu, loggedIn } = state;
 
     if (Number.isNaN(Number(id))) {
@@ -30,6 +30,8 @@ export default function Profile() {
     const { data: userData, isLoading, error } = useQuery({
         queryKey: ['user', userId],
         queryFn: () => getUser(userId),
+        staleTime: 0,
+        gcTime: 0,
     });
 
     useEffect(() => {
@@ -38,6 +40,12 @@ export default function Profile() {
             redirect('/');
         }
         if (userData && "id" in userData) {
+            console.log('userData')
+            console.log(userData)
+            dispatch({
+                type: "gotUser",
+                value: userData,
+            })
 
             if (loggedIn && cu?.id == userData?.id && !isUser) {
                 setIsUser(true);
