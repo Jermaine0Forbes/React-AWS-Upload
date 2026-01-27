@@ -1,0 +1,57 @@
+@use '_var' as *;
+
+#signup {
+
+
+    #signup-container {
+        background: white;
+        margin-top: 1em;
+    }
+
+    .step-group {
+
+        min-height:400px;
+        margin-top: 2em;
+    }
+
+    .tier-plan {
+        color: white;
+        text-align: center;
+        background: $black;
+        min-height: 300px;
+        border-radius: 15px;
+
+        &:hover,
+        &.active{
+            background: $green;
+        }
+
+        .button {
+            color: $black;
+            background: white;
+        }
+
+        .heading- {
+
+            &1 {
+                margin-top:0.5em;
+            }
+
+            &2 {
+                font-size: 4em;
+            }
+
+            // &3 {}
+
+            &4 {
+                display: block;
+                margin-bottom:1em;
+            }
+        }
+
+        hr{
+            color:white;
+            background: white;
+        }
+    }
+}

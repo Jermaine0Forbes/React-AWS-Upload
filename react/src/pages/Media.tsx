@@ -64,7 +64,7 @@ export default function Media() {
                                         {data.name}
                                     </DialogTitle>
                                     <DialogContent>
-                                        <img src={data.path} style={{width:"100%"}}/>
+                                        <img src={data.path} loading="lazy" style={{width:"100%"}}/>
                                     </DialogContent>
                                 </Dialog>
 
