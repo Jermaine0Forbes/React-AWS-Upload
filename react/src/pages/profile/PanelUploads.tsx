@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TabPanel } from "../../components/TabPanel";
 import type { TabPanelProps } from "../../interfaces";
 import MediaBlock from "../../components/MediaBlock";
 import { useQuery } from "@tanstack/react-query";
 import { getUserContent } from "../../services/content";
-import { AuthContext, useUserContext } from "../../contexts";
+import {useUserContext } from "../../contexts";
 import CircularProgress from "@mui/material/CircularProgress";
 import { type MediaData } from "../../interfaces";
 import { useParams } from "react-router";
@@ -14,12 +14,11 @@ export default function PanelUploads({ value, index }: TabPanelProps) {
     const [media, setMedia] = useState<MediaData[] | null | []>([])
     const [panelVisible, setPanelVisible] = useState<boolean>(false)
     const { id } = useParams<{ id: string }>();
-    // const { state } = useContext(AuthContext);
-    // const { loggedIn, cu } = state;
+
     const { data: mediaData, isLoading, error } = useQuery({
         queryKey: ['get-user-content'],
         queryFn: () => getUserContent(Number(id)),
-        refetchInterval: 30000,
+        refetchInterval: 3000,
         staleTime: 0,
         gcTime: 0,
     });
@@ -35,9 +34,6 @@ export default function PanelUploads({ value, index }: TabPanelProps) {
             setMedia([...mediaData])
         }
 
-        // if(!panelVisible){
-        //     setMedia([]);
-        // }
 
         if (tabIndex || value) {
 

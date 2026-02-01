@@ -1,10 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { TabPanel } from "../../components/TabPanel";
-import type { TabPanelProps } from "../../interfaces";
+import {  useEffect, useState } from "react";
 import MediaBlock from "../../components/MediaBlock";
 import { useQuery } from "@tanstack/react-query";
 import { getGeneralContent } from "../../services/content";
-import { AuthContext, useUserContext } from "../../contexts";
+import { useUserContext } from "../../contexts";
 import CircularProgress from "@mui/material/CircularProgress";
 import { type MediaData } from "../../interfaces";
 import { useParams } from "react-router";
@@ -12,17 +10,13 @@ import { useParams } from "react-router";
 export default function GeneralUploads() {
     const { userData: user } = useUserContext();
     const [media, setMedia] = useState<MediaData[] | null | []>([])
-    // const [panelVisible, setPanelVisible] = useState<boolean>(false)
     const { id } = useParams<{ id: string }>();
-    // const { state } = useContext(AuthContext);
-    // const { loggedIn, cu } = state;
+
     const { data: mediaData, isLoading, error } = useQuery({
         queryKey: ['get-general-content'],
         queryFn: () => getGeneralContent(id ?? user?.id),
         staleTime: 0,
         gcTime: 0,
-        // refetchInterval: 3000,
-        // enabled: panelVisible
     });
 
 

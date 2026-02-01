@@ -4,12 +4,8 @@ import Typography from "@mui/material/Typography";
 import { TabPanel } from "../../components/TabPanel";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import type { PanelNewProps, QuotaData } from "../../interfaces";
-// import FormControl from '@mui/material/FormControl';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import FormLabel from '@mui/material/FormLabel';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
 import { Button, FormGroup, TextField, Card, CardContent, Stack, FormControl } from '@mui/material';
-// import { Form } from 'react-router';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { postProfileUpload } from '../../services/profile';
 import CircularProgress from "@mui/material/CircularProgress";
@@ -26,8 +22,7 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
     const [notifyOpen, setNotifyOpen] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const uploadInputRef = useRef<HTMLFormElement | null>(null);
-    // const { userData: user} = useUserContext();
-    const { state, dispatch } = useContext(AuthContext);
+    const { state } = useContext(AuthContext);
     const { userData: user, cu } = state;
 
     console.log('user')

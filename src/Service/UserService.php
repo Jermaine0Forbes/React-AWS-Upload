@@ -12,6 +12,7 @@ use App\DTO\RegisterDTO;
 use App\DTO\LoginDTO;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 final class UserService
 {
@@ -23,6 +24,7 @@ final class UserService
         private EntityManagerInterface $entityManager,
         private S3 $s3,
         private UserPasswordHasherInterface $passwordHasher,
+        private JWTTokenManagerInterface $jwt,
     ) {}
 
     private function checkUser(int $id)
@@ -82,8 +84,11 @@ final class UserService
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
             "expiration" => $user->getSubscriptionLimit()->getExpirationDate(),
+            "token" => $this->jwt->create($user),
 
         ];
+
+        
     }
 
     public function validateRegistration(Request $request): RegisterDTO

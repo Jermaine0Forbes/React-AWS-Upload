@@ -35,6 +35,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "lexik/jwt-authentication-bundle": {
+        "version": "v3.2.0"
+    },
     "nelmio/cors-bundle": {
         "version": "2.6",
         "recipe": {
@@ -151,5 +154,8 @@
             "./config/packages/translation.yaml",
             "./translations/.gitignore"
         ]
+    },
+    "web-token/jwt-bundle": {
+        "version": "4.1.3"
     }
 }

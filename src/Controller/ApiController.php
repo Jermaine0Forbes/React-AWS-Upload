@@ -173,5 +173,11 @@ final class ApiController extends AbstractController
         return $this->json($user);
     }
 
+    #[Route('/api/login_check', name: 'app_api_login_check', methods: ['POST'])]
+    public function loginCheck():void
+    {
+        // No need to add login logic, it's all handled in security.yaml
+    }
+
 
 }

@@ -28,6 +28,7 @@ final class AwsUtils{
   {
 
   // $cacertPath = dirname(__DIR__, 2)."\cacert.pem";
+  // $cacertPath = C:/wamp64/bin/php/php8.2.0/extras/ssl/cacert.pem;
 
    return new S3Client([
      "region" => $this->region,

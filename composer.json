@@ -1,4 +1,18 @@
 {
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.packagist.org",
+            "options": {
+                "ssl": {
+                    "verify_peer": false,
+                    "allow_self_signed": true,
+                    "cafile": "C:/wamp64/bin/php/php8.2.0/extras/ssl/cacert.pem",
+                    "capath": "C:/wamp64/bin/php/php8.2.0/extras/ssl/"
+                }
+            }
+        }
+    ],
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -11,7 +25,9 @@
         "doctrine/doctrine-bundle": "^2.18",
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.6",
-        "nelmio/cors-bundle": "^2.6",
+        "lexik/jwt-authentication-bundle": "*",
+        "nelmio/cors-bundle": "*",
+        "paragonie/sodium_compat_ext_sodium": "^1.0",
         "symfony/console": "7.4.*",
         "symfony/dotenv": "7.4.*",
         "symfony/flex": "^2",
@@ -21,7 +37,8 @@
         "symfony/runtime": "7.4.*",
         "symfony/security-bundle": "7.4.*",
         "symfony/translation": "7.4.*",
-        "symfony/yaml": "7.4.*"
+        "symfony/yaml": "7.4.*",
+        "web-token/jwt-bundle": "*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.65"
@@ -34,7 +51,7 @@
         },
         "bump-after-update": true,
         "sort-packages": true,
-        "cafile": "C:\\wamp64\\www\\symf\\api_upload\\cacert.pem"
+        "cafile": "C:/wamp64/bin/php/php8.2.0/extras/ssl/cacert.pem"
     },
     "autoload": {
         "psr-4": {

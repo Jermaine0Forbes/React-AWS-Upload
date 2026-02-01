@@ -38,7 +38,10 @@
 - ~~create service to handle registration~~
 - ~~create register endpoint~~
 - ~~user can only view uploads from other users~~
-- return jwt token
+- ~~return jwt token~~
+- update frontend to handle jwt token
+- add logic to reject duplicate username
+
 
 
 
@@ -49,6 +52,11 @@
 symfony server:start
 
 php bin/console cache:clear
+
+composer clearcache
+
+// creates the user model
+php bin/console make:user
 
 // create the models
 php bin/console make:entity
@@ -63,5 +71,13 @@ symfony console make:migration
 symfony console doctrine:migrations:migrate
 
 // drop tables based on the migration version number that you'll find in database
-symfony console doctrine:migrations:execute DoctrineMigrations\Version20260125003318 --down
+symfony console doctrine:migrations:execute DoctrineMigrations\\Version20260125003318 --down
+
+// run "symfony.exe server:ca:install" first if you want to run the web server with TLS support, or use "--p12  
+// " or "--no-tls" to avoid this warning
+symfony.exe server:ca:install
+
+// view current migration version
+php bin/console doctrine:migrations:status
+
 ```
