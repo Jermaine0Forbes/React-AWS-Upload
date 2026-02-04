@@ -6,14 +6,14 @@ import {  authReducer } from "../reducers";
 export default function AuthProvider({children}: ChildrenProps) 
 {
 
-    const usr = localStorage.getItem('current_user') ?? null;
+    const usr = localStorage.getItem('_token') ?? null;
     // const [loggedIn, setLoggedIn] = useState(false);
     // const [loggedOut, setLoggedOut] = useState(true);
     // const [currentUser, setCurrentUser] = useState(null);
 
-    // const getToken = () => localStorage.getItem('current_user') ?? null;
+    // const getToken = () => localStorage.getItem('_token') ?? null;
     // const logout = () => {
-    //     localStorage.removeItem('current_user')
+    //     localStorage.removeItem('_token')
     //     setCurrentUser(null);
     //     setLoggedOut(true);
     //     console.log('logging out?')
@@ -40,6 +40,9 @@ export default function AuthProvider({children}: ChildrenProps)
 
     //     }
     // },[currentUser, setCurrentUser])
+
+    console.log('token is ')
+    console.log(usr)
 
     const initialState = {
         cu: null,

@@ -24,7 +24,7 @@ export default function DefaultLayout() {
 
 
     const handleLogout = () => {
-        localStorage.removeItem('current_user');
+        localStorage.removeItem('_token');
         dispatch({
             type: 'loggedOut',
             value: null,
@@ -33,8 +33,8 @@ export default function DefaultLayout() {
     const checkStorage = () => {
 
         if (!loggedIn && cu == null) {
-            console.log(cu)
-            console.log('cu when logged out')
+            // console.log(cu)
+            // console.log('cu when logged out')
             redirect('.')
         }
 

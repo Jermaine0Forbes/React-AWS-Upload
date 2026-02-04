@@ -41,6 +41,20 @@
 - ~~return jwt token~~
 - update frontend to handle jwt token
 - add logic to reject duplicate username
+- give message if credentials are bad when user attempts to login/signup
+- add input validation to forms and uploading
+- check if user is authenticated before upload
+- verify if DTO assertions are even working
+- refactor code
+- add additional metadata to file upload( username, max, current, email)
+- create s3 event to lambda to verify if quota has been reached, log for now
+- send quota maxed status to sns and publish it to ses
+- create cdk to connect these services together
+- create user roles
+- create an admin dashboard
+- create protected route on frontend to verify admin
+- deploy app
+- add test cases
 
 
 

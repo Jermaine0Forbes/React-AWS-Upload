@@ -1,5 +1,5 @@
 // import React from 'react';
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { Container, FormControl, TextField, FormGroup, FormLabel, Button, Typography } from "@mui/material";
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../services/user';
@@ -19,7 +19,7 @@ export default function Login() {
         mutationFn: loginUser,
         onSuccess: async (data) => {
             console.log(data);
-            localStorage.setItem('current_user', JSON.stringify(data));
+            localStorage.setItem('_token', data?.token);
             dispatch({
                 type: "loggedIn",
                 value: data,

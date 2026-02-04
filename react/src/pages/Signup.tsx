@@ -46,7 +46,7 @@ export default function Signup() {
         mutationFn: registerUser,
         onSuccess: async (data) => {
             console.log(data);
-            localStorage.setItem('current_user', JSON.stringify(data));
+            localStorage.setItem('_token', data?.token);
             dispatch({
                 type:"loggedIn",
                 value: data,

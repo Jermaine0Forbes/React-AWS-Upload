@@ -95,8 +95,8 @@ export default function PanelNew({ value, index, userId }: PanelNewProps) {
         if (isSuccess && data && 'remainder' in data && quota?.current !== data?.current && user?.max == data.max) {
             const { remainder } = data;
 
-            console.log('data')
-            console.log(data)
+            // console.log('data')
+            // console.log(data)
 
             switch (remainder) {
                 case 0:
