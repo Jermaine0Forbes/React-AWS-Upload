@@ -39,7 +39,7 @@
 - ~~create register endpoint~~
 - ~~user can only view uploads from other users~~
 - ~~return jwt token~~
-- update frontend to handle jwt token
+- ~~update frontend to handle jwt token~~
 - add logic to reject duplicate username
 - give message if credentials are bad when user attempts to login/signup
 - add input validation to forms and uploading

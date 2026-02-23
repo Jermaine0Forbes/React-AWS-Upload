@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getContent } from '../services/content';
-import { Container, Skeleton } from '@mui/material';
+import { Container, Skeleton, Typography } from '@mui/material';
 import ContentBlock from '../components/ContentBlock';
 import type { ContentData } from '../interfaces';
 
@@ -10,8 +10,8 @@ export default function Content() {
     const { data, isLoading, error } = useQuery({
         queryKey: ['get-content'],
         queryFn: getContent,
-        staleTime: 0,
-        gcTime: 0,
+        // staleTime: 0,
+        // gcTime: 0,
     });
 
     useEffect(() => {
@@ -19,9 +19,20 @@ export default function Content() {
             console.error(error)
         }
         if (data) {
+            console.log('foo')
             setContent(data);
         }
     }, [data, error])
+
+    if(Array.isArray(data) && data?.length === 0 && isLoading  === false) {
+
+        return (
+            <main id="content">
+                <Typography variant='h3'>No content yet</Typography>
+            </main>
+        )
+    }
+
     return (
         <main
             id="content">

@@ -17,12 +17,12 @@ security:
         login:
             pattern: ^/api/login
             stateless: true
-            form_login:
-                check_path: /api/login_check
-                username_parameter: username
-                password_parameter: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            # form_login:
+            #     check_path: /api/login_check
+            #     username_parameter: username
+            #     password_parameter: password
+            #     success_handler: lexik_jwt_authentication.handler.authentication_success
+            #     failure_handler: lexik_jwt_authentication.handler.authentication_failure
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
