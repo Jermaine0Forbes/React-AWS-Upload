@@ -43,7 +43,7 @@ export async function registerUser(data: FormData): Promise< any | Response> {
     })
     .then((response) => {
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.statusText}`);
         }
         return response.json();
     })

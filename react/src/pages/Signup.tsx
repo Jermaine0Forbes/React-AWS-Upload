@@ -52,6 +52,9 @@ export default function Signup() {
                 value: data,
             });
 
+        },
+        onError:(error) =>{
+            console.log(error)
         }
     });
 

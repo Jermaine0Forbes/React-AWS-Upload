@@ -49,5 +49,9 @@ services:
     App\Service\ContentService:
         arguments:
             $s3: '@s3_service'
+            
+    App\EventListener\ExceptionListener:
+        tags: [kernel.event_listener]
+
 
 

@@ -40,7 +40,7 @@
 - ~~user can only view uploads from other users~~
 - ~~return jwt token~~
 - ~~update frontend to handle jwt token~~
-- add logic to reject duplicate username
+- ~~add logic to reject duplicate username~~
 - give message if credentials are bad when user attempts to login/signup
 - add input validation to forms and uploading
 - check if user is authenticated before upload
@@ -55,6 +55,8 @@
 - create protected route on frontend to verify admin
 - deploy app
 - add test cases
+- create rate limiter for login
+- move generate user into UserService
 
 
 
@@ -93,5 +95,8 @@ symfony.exe server:ca:install
 
 // view current migration version
 php bin/console doctrine:migrations:status
+
+// prints out the order of event listeners that are registered under the exception kernel
+php bin/console debug:event-dispatcher kernel.exception
 
 ```

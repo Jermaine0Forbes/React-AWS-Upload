@@ -101,6 +101,14 @@ final class UserService
 
         $dto = $this->validateRegistration($request);
         $user = new User();
+
+        $userExists = $this->entityManager->getRepository(User::class)->findBy([ "username" => $dto->username]);
+
+        if($userExists) {
+           throw new \Exception('Username already exists');
+        }
+
+
         $plan = $this->entityManager->getRepository(Plan::class)->findOneById($dto->tier_id);
         $user->setUsername($dto->username);
         $user->setEmail($dto->email);
