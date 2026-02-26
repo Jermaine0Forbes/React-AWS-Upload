@@ -53,8 +53,8 @@ export default function Signup() {
             });
 
         },
-        onError:(error) =>{
-            console.log(error)
+        onError:async (error) =>{
+            console.log(await error)
         }
     });
 

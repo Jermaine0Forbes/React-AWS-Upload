@@ -42,10 +42,19 @@ export async function registerUser(data: FormData): Promise< any | Response> {
         body: data,
     })
     .then((response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.statusText}`);
-        }
+        // if (!response.ok) {
+        //     const err = response.json();
+        //     throw new Error(response);
+        //     // throw new Error(`HTTP error! status: ${response.statusText}`);
+        // }
         return response.json();
+    })
+    .then(response =>  {
+        if(!response?.ok) {
+            throw new Error(response?.message)
+        }
+
+        return response;
     })
     .catch((error) => {
         console.error("Error fetching user data:", error);
