@@ -10,6 +10,8 @@ import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../services/user';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../contexts';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Signup() {
     const stepTitles = ['Fill out Form', 'Choose Plan', 'Review'];
@@ -24,7 +26,7 @@ export default function Signup() {
     const [skipped, setSkipped] = useState(new Set<number>());
     const formRef = useRef(null);
     const redirect = useNavigate();
-    const { state, dispatch} = useContext(AuthContext);
+    const { state, dispatch } = useContext(AuthContext);
     const { loggedIn, cu } = state;
 
     useEffect(() => {
@@ -51,12 +53,12 @@ export default function Signup() {
             console.log(data);
             localStorage.setItem('_token', data?.token);
             dispatch({
-                type:"loggedIn",
+                type: "loggedIn",
                 value: data,
             });
 
         },
-        onError:async (error) =>{
+        onError: async (error) => {
             setNotifyOpen(true);
             setStatusMsg(error?.message)
         }
@@ -371,6 +373,14 @@ export default function Signup() {
                 autoHideDuration={3000}
                 className="error"
                 id="notify-open"
+                action={
+                    <IconButton
+                        aria-label="close"
+                        onClick={() => setNotifyOpen(false)}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                }
             />
         </main>
     )

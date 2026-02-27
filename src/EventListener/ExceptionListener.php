@@ -23,6 +23,7 @@ class ExceptionListener
             $response = new JsonResponse([
             'status' => $exception->getStatusCode(),
             'message' => $exception->getMessage(),
+            'ok' => false,
         ], $exception->getStatusCode());
         } else {
 

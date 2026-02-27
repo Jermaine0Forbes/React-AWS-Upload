@@ -1,15 +1,19 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import { Container, FormControl, TextField, FormGroup, FormLabel, Button, Typography } from "@mui/material";
+import { Container, FormControl, TextField, FormGroup, FormLabel, Button, Typography, Snackbar } from "@mui/material";
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../services/user';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../contexts';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 export default function Login() {
     const formRef = useRef(null);
     const [username, setUsername] = useState<string>('user1');
     const [password, setPassword] = useState<string>('password');
+    const [statusMsg, setStatusMsg] = useState<string>('');
+    const [notifyOpen, setNotifyOpen] = useState<boolean>(false);
     const { state, dispatch } = useContext(AuthContext);
     const redirect = useNavigate();
     const { loggedIn, cu } = state;
@@ -23,7 +27,10 @@ export default function Login() {
                 type: "loggedIn",
                 value: data,
             });
-
+        },
+        onError:async (error) =>{
+            setNotifyOpen(true);
+            setStatusMsg(error?.message)
         }
     });
 
@@ -88,6 +95,23 @@ export default function Login() {
                 </form>
                 <Button onClick={handleSubmit}>Submit</Button>
             </Container>
+            <Snackbar
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                open={notifyOpen}
+                onClose={() => setNotifyOpen(false)}
+                message={statusMsg}
+                autoHideDuration={3000}
+                className="error"
+                id="notify-open"
+                action={
+                    <IconButton
+                        aria-label="close"
+                        onClick={() => setNotifyOpen(false)}
+                    >
+                        <CloseIcon/>
+                    </IconButton>
+                }
+            />
         </main>
     )
 }
