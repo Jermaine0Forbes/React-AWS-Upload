@@ -23,3 +23,13 @@ body {
 .hidden {
     display: none !important;
 }
+
+
+#notify-open {
+
+    &.error {
+        div {
+            background:rgb(135, 12, 12); 
+        }
+    }
+}

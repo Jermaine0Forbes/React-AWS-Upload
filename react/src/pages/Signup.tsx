@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import { Container, FormControl, TextField, FormGroup, FormLabel, Divider, Grid, Select, MenuItem } from "@mui/material";
+import { Container, FormControl, TextField, FormGroup, FormLabel, Divider, Grid, Select, MenuItem, Snackbar } from "@mui/material";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -18,6 +18,9 @@ export default function Signup() {
     const [username, setUsername] = useState<string>('user1');
     const [email, setEmail] = useState<string>('jermaine0forbes@gmail.com');
     const [password, setPassword] = useState<string>('password');
+    const defaultMsg = "All steps completed - you're finished";
+    const [statusMsg, setStatusMsg] = useState<string>(defaultMsg);
+    const [notifyOpen, setNotifyOpen] = useState<boolean>(false);
     const [skipped, setSkipped] = useState(new Set<number>());
     const formRef = useRef(null);
     const redirect = useNavigate();
@@ -54,7 +57,8 @@ export default function Signup() {
 
         },
         onError:async (error) =>{
-            console.log(await error)
+            setNotifyOpen(true);
+            setStatusMsg(error?.message)
         }
     });
 
@@ -63,7 +67,7 @@ export default function Signup() {
         const wizardForm = formRef.current;
         if (!wizardForm) return;
         const form = new FormData(wizardForm);
-
+        setStatusMsg(defaultMsg);
         form.append('tier_id', plan.toString());
         signupMutation.mutate(form)
     }
@@ -137,7 +141,7 @@ export default function Signup() {
                     {activeStep === stepTitles.length ? (
                         <React.Fragment>
                             <Typography sx={{ mt: 2, mb: 1 }}>
-                                All steps completed - you&apos;re finished
+                                {statusMsg}
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Box sx={{ flex: '1 1 auto' }} />
@@ -359,6 +363,15 @@ export default function Signup() {
                     )}
                 </Box>
             </Container>
+            <Snackbar
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                open={notifyOpen}
+                onClose={() => setNotifyOpen(false)}
+                message={statusMsg}
+                autoHideDuration={3000}
+                className="error"
+                id="notify-open"
+            />
         </main>
     )
 }

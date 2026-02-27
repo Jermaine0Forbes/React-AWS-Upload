@@ -105,7 +105,7 @@ final class UserService
         $userExists = $this->entityManager->getRepository(User::class)->findBy([ "username" => $dto->username]);
 
         if($userExists) {
-           throw new \Exception('Username already exists');
+           throw new BadCredentialsException('Username already exists');
         }
 
 
@@ -163,11 +163,11 @@ final class UserService
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $dto->username]);
 
         if (!$user) {
-            throw new BadCredentialsException();
+            throw new BadCredentialsException("User does not exist");
         }
         if (!$this->passwordHasher->isPasswordValid($user, $dto->password)) {
             // Password is valid, proceed with authentication logic (e.g., generate a token)
-            throw new BadCredentialsException();
+            throw new BadCredentialsException("Invalid password");
         }
 
         return $this->createJwt($user);
