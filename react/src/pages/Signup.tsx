@@ -1,5 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Container, FormControl, TextField, FormGroup, FormLabel, Divider, Grid, Select, MenuItem, Snackbar } from "@mui/material";
+import { useForm, SubmitHandler, FormProvider} from "react-hook-form"
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -28,6 +29,22 @@ export default function Signup() {
     const redirect = useNavigate();
     const { state, dispatch } = useContext(AuthContext);
     const { loggedIn, cu } = state;
+
+
+
+        //     const {
+        //     register,
+        //     handleSubmit,
+        //     getValues,
+        //     // watch,
+        //     formState: { errors },
+        // } = useForm<SignupInputs>({ defaultValues : {
+        //         username: 'user1',
+        //         password: 'password',
+        //         password2: 'password'
+        //     },});
+
+
 
     useEffect(() => {
 

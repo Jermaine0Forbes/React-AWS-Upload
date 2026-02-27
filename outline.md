@@ -41,7 +41,7 @@
 - ~~return jwt token~~
 - ~~update frontend to handle jwt token~~
 - ~~add logic to reject duplicate username~~
-- give message if credentials are bad when user attempts to login/signup
+- ~~give message if credentials are bad when user attempts to login/signup~~
 - add input validation to forms and uploading
 - check if user is authenticated before upload
 - verify if DTO assertions are even working
@@ -57,6 +57,7 @@
 - add test cases
 - create rate limiter for login
 - move generate user into UserService
+- allow user to update profile info
 
 
 
@@ -100,3 +101,8 @@ php bin/console doctrine:migrations:status
 php bin/console debug:event-dispatcher kernel.exception
 
 ```
+
+
+### 2-26-26
+
+[how to create an exception event listener](https://symfony.com/doc/current/event_dispatcher.html#creating-an-event-listener)
