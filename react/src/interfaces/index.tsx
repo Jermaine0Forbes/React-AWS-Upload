@@ -83,3 +83,11 @@ export interface ChildrenProps {
 }
 
 
+export interface SignupValues {
+    username: string,
+    email: string,
+    password: string,
+    plan: number
+}
+
+

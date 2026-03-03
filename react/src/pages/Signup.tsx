@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Container, FormControl, TextField, FormGroup, FormLabel, Divider, Grid, Select, MenuItem, Snackbar } from "@mui/material";
-import { useForm, SubmitHandler, FormProvider} from "react-hook-form"
+import { useForm, type SubmitHandler} from "react-hook-form"
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router';
 import { AuthContext } from '../contexts';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import type { SignupValues} from '../interfaces';
 
 export default function Signup() {
     const stepTitles = ['Fill out Form', 'Choose Plan', 'Review'];
@@ -32,17 +33,18 @@ export default function Signup() {
 
 
 
-        //     const {
-        //     register,
-        //     handleSubmit,
-        //     getValues,
-        //     // watch,
-        //     formState: { errors },
-        // } = useForm<SignupInputs>({ defaultValues : {
-        //         username: 'user1',
-        //         password: 'password',
-        //         password2: 'password'
-        //     },});
+            const {
+            register,
+            handleSubmit,
+            getValues,
+            // watch,
+            formState: { errors },
+        } = useForm<SignupValues>({ defaultValues : {
+                username: 'user1',
+                password: 'password',
+                email: 'jermaine0forbes@gmail.com',
+                plan: 1,
+            },});
 
 
 
@@ -81,20 +83,27 @@ export default function Signup() {
         }
     });
 
-    const handleSubmit = () => {
+    /*
+        Might pass values as data to see if it's worth it,
+        we'll see
+    */
+    const onSubmit: SubmitHandler<SignupValues> = (data) => {
+        console.log(data)
 
-        const wizardForm = formRef.current;
-        if (!wizardForm) return;
-        const form = new FormData(wizardForm);
-        setStatusMsg(defaultMsg);
-        form.append('tier_id', plan.toString());
-        signupMutation.mutate(form)
+        return;
+
+        // const wizardForm = formRef.current;
+        // if (!wizardForm) return;
+        // const form = new FormData(wizardForm);
+        // setStatusMsg(defaultMsg);
+        // form.append('tier_id', plan.toString());
+        // signupMutation.mutate(form)
     }
 
     const handleNext = () => {
 
         if (activeStep === stepTitles.length - 1) {
-            handleSubmit();
+            handleSubmit(onSubmit)();
         }
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
@@ -183,12 +192,12 @@ export default function Signup() {
                                             <TextField
                                                 variant='standard'
                                                 id="username"
-                                                name="username"
+                                                // name="username"
                                                 className="form-field"
                                                 value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
+                                                // onChange={(e) => setUsername(e.target.value)}
                                             // defaultValue={user?.username}
-                                            // {...register('username', { required: true })}
+                                            {...register('username', { required: true })}
                                             />
                                         </FormControl>
                                     </FormGroup>
@@ -200,13 +209,13 @@ export default function Signup() {
                                             <TextField
                                                 variant='standard'
                                                 id="email"
-                                                name="email"
+                                                // name="email"
                                                 className="form-field"
                                                 type="email"
                                                 value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
+                                                // onChange={(e) => setEmail(e.target.value)}
                                             // defaultValue={user?.email}
-                                            // {...register('username', { required: true })}
+                                            {...register('email', { required: true })}
                                             />
                                         </FormControl>
                                     </FormGroup>
@@ -218,12 +227,12 @@ export default function Signup() {
                                             <TextField
                                                 variant='standard'
                                                 id="password"
-                                                name="password"
+                                                // name="password"
                                                 className="form-field"
                                                 type="password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            // {...register('username', { required: true })}
+                                                // value={password}
+                                                // onChange={(e) => setPassword(e.target.value)}
+                                            {...register('password', { required: true })}
                                             />
                                         </FormControl>
                                     </FormGroup>
@@ -297,10 +306,10 @@ export default function Signup() {
                                                 variant='standard'
                                                 id="username"
                                                 className="form-field"
-                                                value={username}
+                                                // value={username}
                                                 disabled
                                             // defaultValue={user?.username}
-                                            // {...register('username', { required: true })}
+                                            {...register('username', { required: true })}
                                             />
                                         </FormControl>
                                     </FormGroup>
@@ -314,10 +323,10 @@ export default function Signup() {
                                                 id="email"
                                                 className="form-field"
                                                 type="email"
-                                                value={email}
+                                                // value={email}
                                                 disabled
                                             // defaultValue={user?.email}
-                                            // {...register('username', { required: true })}
+                                            {...register('email', { required: true })}
                                             />
                                         </FormControl>
                                     </FormGroup>
@@ -329,12 +338,12 @@ export default function Signup() {
                                             <TextField
                                                 variant='standard'
                                                 id="password"
-                                                name="password"
+                                                // name="password"
                                                 className="form-field"
                                                 type="password"
-                                                value={password}
+                                                // value={password}
                                                 disabled
-                                            // {...register('username', { required: true })}
+                                            {...register('password', { required: true })}
                                             />
                                         </FormControl>
                                     </FormGroup>
