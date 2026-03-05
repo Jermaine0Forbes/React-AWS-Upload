@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Profile from './pages/profile/Profile';
 import Content from './pages/Content';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Signup from './pages/signup/Signup';
 import Media from './pages/Media';
 import ErrorPage from './pages/ErrorPage';
 import AuthProvider from './providers/AuthProvider';
