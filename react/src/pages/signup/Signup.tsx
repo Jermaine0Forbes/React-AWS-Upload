@@ -18,6 +18,7 @@ import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
 import FinalStep from './FinalStep';
+import { SignupZod } from '../../services/zod';
 
 export default function Signup() {
     const stepTitles = ['Fill out Form', 'Choose Plan', 'Review'];
@@ -87,6 +88,21 @@ export default function Signup() {
         }
     });
 
+    const zodInvalid = (form: FormData): boolean => {
+
+       const result =  SignupZod.safeParse({
+            username: form.get('username'),
+            email: form.get('email'),
+            password: form.get('password'),
+            plan: form.get('plan'),
+        })
+
+        if(result.success){
+            return false;
+        }
+
+        return true;
+    };
     /*
         Might pass values as data to see if it's worth it,
         we'll see
@@ -96,12 +112,17 @@ export default function Signup() {
 
         return;
 
-        // const wizardForm = formRef.current;
-        // if (!wizardForm) return;
-        // const form = new FormData(wizardForm);
-        // setStatusMsg(defaultMsg);
-        // form.append('tier_id', plan.toString());
-        // signupMutation.mutate(form)
+        const wizardForm = formRef.current;
+        if (!wizardForm) return;
+        const form = new FormData(wizardForm);
+        if (zodInvalid(form))
+        {
+            setStatusMsg("Invalid form state")
+            return;
+        }
+        setStatusMsg(defaultMsg);
+        form.append('tier_id', plan.toString());
+        signupMutation.mutate(form)
     }
 
     const handleNext = () => {
